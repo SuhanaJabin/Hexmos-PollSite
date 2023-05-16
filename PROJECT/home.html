@@ -45,11 +45,14 @@
 
         flex-direction: column;
         background-color: rgb(0, 183, 255);
+        box-shadow: 2px 2px 4px rgba(58, 218, 247, 0.4);
       }
 
       .second {
         background-color: rgb(212, 208, 208);
         height: 16rem;
+        padding: 10px;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
       }
       table {
         border-collapse: collapse;
@@ -72,6 +75,8 @@
 
       .btn1 {
         margin-top: 15px;
+        
+       
       }
 
       .btn {
@@ -81,7 +86,8 @@
         align-items: center;
       }
       .btn2{
-        padding: 5rem;
+        padding:2px;
+        margin-bottom: 1rem;
       }
       .main {
         border: 1px solid black;
@@ -95,7 +101,25 @@
       .page{
         padding:1rem;
       }
-        
+
+      .pie-chart{
+        margin-left: 5rem;
+        height: 250px;
+        width: 250px;
+        border-radius: 50%;
+        background: conic-gradient(rgb(194, 194, 226) 70%, rgb(91, 131, 150) 30%);
+      }
+
+      .pie{
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+      }
+      .total-votes{
+       
+
+      }
     
       
     </style>
@@ -166,12 +190,47 @@
      
       <div class="main-div">
         <div class="">
-          <div><h3>Will India win ICC Worldcup next time?</h3></div>
-          <button class="btm2">
+          <div><h2>Will India win ICC Worldcup next time?</h2></div>
+          <button class="btn2">
             <h4>Vote on this Poll</h4>
           </button>
+          <table>
+            <tr>
+              <th>Number</th>
+              <th>Option</th>
+              <th>Votes</th>
+             
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Yes, India will win the next ICC world cup</td>
+              <td>22</td>
+             
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>
+                No, India won't win the next ICC world cup
+              </td>
+              <td>10</td>
+            
+            </tr>
+          </table>
+
+          <p>Tags:Sports,Games</p>
+
           
           </div>
+          <div class="pie">
+            <div class="pie-chart" > 
+          
+           
+            </div class="total-votes">
+            <h4>Total Votes:22</h4>
+          </div>
+         
+          
+          
         </div>
         <div class="">
           
@@ -194,14 +253,8 @@
             <label for="checkbox1">Yes</label><br />
             <input type="radio" id="checkbox1" name="Sports" />
             <label for="checkbox1">No</label><br />
-
             <button class="btn3">Vote</button>
-         
-          
           </div>
-        </div>
-        <div class="">
-          
         </div>
       </div>
     </div>
