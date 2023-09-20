@@ -107,31 +107,35 @@
       padding:1rem;
     }
 
-    .pie-chart{
-      margin-left: 5rem;
-      height: 250px;
-      width: 250px;
-      border-radius: 50%;
-      background: conic-gradient(rgb(194, 194, 226) 70%, rgb(91, 131, 150) 30%);
-    }
+   
 
-    .pie{
-      display: flex;
-      flex-direction: column;
-      display: flex;
-
-      align-items: center;
-    }
+    
     .box{
       background-color: lightgray;
-      height: 45rem;
+      height: 25rem;
       width: 40rem;
       padding: 10px;
       margin-top: 3rem;
+      padding-bottom: 4rem;
     }
     .last{
         display: flex;
     }
+
+    .double-arrow {
+    font-size: 40px; /* Adjust the size as needed */
+    line-height: 1;
+    color: blue;
+    
+  }
+  .p{
+    display: flex;
+  }
+  .container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Add spacing between each textbox/button pair */
+  }
   
     
   </style>
@@ -141,41 +145,94 @@
       <div class="first-box">
         <h2>FlyWeight Polls</h2>
       </div>
-      <div class="main-div">
+      <div style="display: flex; flex-direction: column;" class="main-div">
         <div class="section-1">
         
           <div class="box">
             
-            <form classname="form" action="/action_page.php">
+            <form classname="form" style="width: 1000px; " action="/action_page.php">
               <h4>Question</h4>
-              <input type="text" name="name" value="Type your poll question here">
+              <input style="width: 500px; padding:5px ;" type="text" name="name" value="Type your poll question here">
               <h4>Answer Options</h4>
-              <input type="text" name="name" value="Option 1">
-              <div classname="option_2">
-                <input type="text" name="name" value="Option 2">
+              
+             
+          
+            
+
+                <div id="textboxes-container">
+                  <div class="container">
+                    <input style="width: 500px; padding:5px ;margin-bottom: 1rem;" type="text" placeholder="Option 1 ">
+                    
+                  </div>
+                  <div class="container">
+                    <input style="width: 500px; padding:5px ;margin-bottom: 1rem;" type="text" placeholder="Option 2">
+                    
+                  </div>
+               
+
               </div>
               <div classname="last">
-                <button>Add Option</button>
-                    <div class="double-arrow"></div>
-                    On click, one more option textbox is added above this button
+                <div class="p">
+                  <button type="button" onclick="addTextBox()" >Add Option</button>
+                  <div class="double-arrow">
+                    &larr;&mdash;&rarr;
+                  </div>
+                  
+                  
+                  
+                  <p>On click, one more option textbox is added above this button</p>
+
+                </div>
+               
               </div>
              
               
               <h4>Comma seperated tags</h4>
-              <input type="text" name="comma_seperated" value="Tag1,Tag2,Tag3" >
-              <button>Create Poll</button>
+              <input style="width: 500px; padding:5px ;"type="text" name="comma_seperated" value="Tag1,Tag2,Tag3" >
              
+             <script>
+              let optionCounter = 3;
+    function addTextBox() {
+      const container = document.getElementById('textboxes-container');
+      const newContainer = document.createElement('div');
+      newContainer.classList.add('container');
+
+      
+
+      const newTextBox = document.createElement('input');
+      newTextBox.type = 'text';
+      newTextBox.placeholder = 'Option ' + optionCounter;
+      //applying styles
+      newTextBox.style.width = '500px';
+      newTextBox.style.padding = '5px';
+      newTextBox.style.marginBottom = '1rem';
+
+      newContainer.appendChild(newTextBox);
+      container.appendChild(newContainer);
+
+      optionCounter++;
+    }
+  </script>
 
 
 
             </form>
+        
             
         
            
           </div>
+         
         </div>
+        <div >
+          <button style="margin-left: 10px;padding: 0.5rem; padding-left: 3rem;padding-right: 3rem; " >Create Poll</button>
+
+        </div>
+       
+        
         
       </div>
+      
     
 </body>
 </html>
