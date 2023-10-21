@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Polls Data</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Polls Data</h1>
+    <div id="polls-data"></div>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "/polls/get-polls-data", // URL to your Django view
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    // Handle the JSON data and display it on the screen
+                    var pollsData = JSON.stringify(data, null, 2);
+                    $("#polls-data").text(pollsData);
+                },
+                error: function(error) {
+                    console.error("Error fetching data:", error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

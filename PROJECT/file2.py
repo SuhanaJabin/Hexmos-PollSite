@@ -1,89 +1,102 @@
-def filtering_tags(polls_data,taglist):
-    filtered=[]#an empty filtered array created
-
-    for poll in polls_data:
-        tags = poll.get("Tags",[])
-        print(tags)
-        if any(tag in tags for tag in taglist):
-         filtered.append(poll)
-
-    # for poll in polls_data:
-    #    if "Tags" in poll:
-    #         tags = poll["Tags"]
-    #    else:
-    #         tags = []   
-        
-    #    if any(tag in tags for tag in taglist):
-    #         filtered.append(poll)
-
-    return filtered
-
 def load_fps(filepath):
-    data = []#created an empty array
-    current_question = {}#created an empty dictionary
+    data = []  
 
     with open(filepath, 'r') as file:
+        next(file)  
         for line in file:
             line = line.strip()
             if line:
-                if "::" in line:
-                   
-                    question, rest = line.split(" :: ", 1)
-                    options, rest = rest.split(" :: ", 1)
-                    votes, tags = rest.split(" :: ")
+           
+                segments = line.split(" :: ")
 
-                    option_list = options.split(" | ")
-                    vote_list = votes.split(" | ")
+                question = segments[0]
+                options_str = segments[1]
+                votes_str = segments[2]
+                tags_str = segments[3]
 
-                   
-                    current_question = {
-                        "Question": question,
-                        "OptionVote": {},
-                        "Tags": tags.split(" | ")
-                    }
+               
+                options = options_str.split(" | ")
+                votes = votes_str.split(" | ")
+                tags = tags_str.split(" | ")
 
-                    for opt, vote in zip(option_list, vote_list):
-                        try:
-                            current_question["OptionVote"][opt] = int(vote)
-                        except ValueError:
-                           
-                            pass
-                else:
-                    current_option_list = options.split(" | ")
-                    current_vote_list = line.split(" | ")
+                
+                option_vote = {}
+                for opt, vote in zip(options, votes):
+                    option_vote[opt] = int(vote)
 
-                    for opt, vote in zip(current_option_list, current_vote_list):
-                        try:
-                            current_question["OptionVote"][opt] = int(vote)
-                        except ValueError:
-                           
-                            pass
+                
+                question_dict = {
+                    "Question": question,
+                    "Options": option_vote,
+                    "Votes": dict(zip(options, [int(vote) for vote in votes])),
+                    "Tags": tags
+                }
 
-            else:
-
-                if current_question:
-                    data.append(current_question)
-                    current_question = {}
-
-        if current_question:
-            data.append(current_question)
+               
+                data.append(question_dict)
 
     return data
 
 
+filepath = 'C://Users//user//Desktop//prep//Hexmos//Hexmos//PROJECT//polldata.fps'
 
-#now defining the main function
-def main():
-    filepath = 'C://Users//user//Desktop//prep//Hexmos//Hexmos//PROJECT//polldata.fps'  
-    polls_data=load_fps(filepath)
-    taglist_in=input("Enter list of tags")
-    taglist=[tag.strip() for tag in taglist_in.split(",")]
-    print(taglist)
+data = load_fps(filepath)
 
-    filtered=filtering_tags(polls_data,taglist)
 
-    for poll in filtered:
-        print(poll)
 
-if __name__ =="__main__":
-    main()
+# data = [
+#     {
+#         'Question': 'Is IPhone12 worth buying?',
+#         'Options': {'Yes': 0, 'No': 200},
+#         'Votes': {'Yes': 0, 'No': 200},
+#         'Tags': ['phones', 'apple']
+#     },
+#     {
+#         'Question': 'Will India win the next world up?',
+#         'Options': {'Yes': 5, 'No': 0},
+#         'Votes': {'Yes': 5, 'No': 0},
+#         'Tags': ['cricket', 'India']
+#     },
+#     {
+#         'Question': 'Which is your favourite programming language ?',
+#         'Options': {'Python': 1, 'Java': 0, 'C': 0, 'C++': 0},
+#         'Votes': {'Python': 1, 'Java': 0, 'C': 0, 'C++': 0},
+#         'Tags': ['Programming']
+#     },
+#     {
+#         'Question': 'What’s the most liked shoe brand according to you?',
+#         'Options': {'puma': 1, 'adidas': 2, 'sparx': 3, 'reebok': 4},
+#         'Votes': {'puma': 1, 'adidas': 2, 'sparx': 3, 'reebok': 4},
+#         'Tags': ['shoes', 'brands']
+#     },
+#     {
+#         'Question': 'When will the vaccine for covid get distributed in India?',
+#         'Options': {'by February 2021': 10, 'by June 2021': 20, 'It will take another year': 1, 'It will never happen': 0},
+#         'Votes': {'by February 2021': 10, 'by June 2021': 20, 'It will take another year': 1, 'It will never happen': 0},
+#         'Tags': ['health', 'covid']
+#     },
+#     {
+#         'Question': 'Which is the most loved tourist place in Kasaragod district',
+#         'Options': {'Bekal Fort': 6, 'Ranipuram': 1, 'Ananthapura lake temple': 1, 'Kottancheri Hills': 2},
+#         'Votes': {'Bekal Fort': 6, 'Ranipuram': 1, 'Ananthapura lake temple': 1, 'Kottancheri Hills': 2},
+#         'Tags': ['tourist place', 'location']
+#     }
+# ]
+
+def filter_by_tags(polls_data, list_of_tags):
+    filtered_data = []
+
+    for question_dict in polls_data:
+        tags = question_dict.get("Tags", [])
+     
+        if any(tag in tags for tag in list_of_tags):
+            filtered_data.append(question_dict)
+
+    return filtered_data
+
+
+list_of_tags = ["phone", "cricket"]
+filtered_questions = filter_by_tags(data, list_of_tags)
+
+for question in filtered_questions:
+    print(question)

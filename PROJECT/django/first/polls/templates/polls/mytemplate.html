@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Poll Tags</title>
+</head>
+<body>
+    <h1>Poll Tags</h1>
+    <ul>
+        {% for poll_data in poll_data_list %}
+            <li>
+                <strong>Question:</strong> {{ poll_data.Question }}<br>
+                <strong>Tags:</strong>
+                <ul>
+                    {% for tag in poll_data.Tags %}
+                        <li>{{ tag }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
