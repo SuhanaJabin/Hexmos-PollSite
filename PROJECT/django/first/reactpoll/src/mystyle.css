@@ -5,3 +5,108 @@
 body{
     padding: 1rem;
 }
+table {
+  border-collapse: collapse;
+  width: 800px;
+ 
+}
+th,
+td {
+  border: 1px solid black;
+  padding: 0.5rem;
+
+  text-align: left;
+}
+
+td{
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+.btn {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.first-box {
+  background-color: rgb(231, 231, 221);
+  height: 8rem;
+  display: flex;
+  align-items: center;
+  margin-right: 25rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+.page{
+  padding:1rem;
+}
+
+.main {
+  border: 1px solid black;
+  padding-bottom: 6rem;
+}
+
+.box{
+  display: flex;
+  /* justify-content: space-between; */
+}
+
+.box2{
+
+  margin-left: auto;
+}
+  
+.boxn{
+  background-color: lightgray;
+  height: 25rem;
+  width: 40rem;
+  padding: 10px;
+  margin-top: 3rem;
+  padding-bottom: 4rem;
+}
+.p{
+  display: flex;
+}
+
+.section-1 {
+  flex-basis: 25%;
+  height: 15rem;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px;
+  background-color: rgb(235, 235, 235);
+  width: 40%;
+  padding: 1rem;
+
+  display: flex;
+}
+
+.first-box {
+  background-color: rgb(231, 231, 221);
+  height: 8rem;
+  display: flex;
+  align-items: center;
+  margin-right: 25rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+.container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Add spacing between each textbox/button pair */
+}
+.last{
+  display: flex;
+}
+.double-arrow {
+  font-size: 40px; /* Adjust the size as needed */
+  line-height: 1;
+  color: blue;
+  
+}
+.main {
+  border: 1px solid black;
+  padding-bottom: 6rem;
+}

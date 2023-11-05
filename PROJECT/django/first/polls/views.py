@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Choice, Question, Poll
+from .models import Choice, Question, Poll,MyFirstTable
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import get_object_or_404, render
@@ -62,29 +62,115 @@ def vote(request, question_id):
  # polls/views.py
 
 
+    # votes=Choice(votes).objects.all()
+    # choices=Choice(choice_text).objects.all()
+
+def get_questions_data(request,pk):
+    data = Question.objects.get(pk=pk)
+    data_list = []
+    question = Question.objects.filter(pk=data.id).first()  
+    if question:
+            totalvotes=0
+            poll_data = {
+                "Number": data.id,
+                "Question": data.question_text,
+                "TotalVotes": totalvotes,
+                "Choices": [],
+
+                "Tags": [tag.name for tag in question.tags.all()],  # Use the reverse relationship
+            }
+            choices = data.choice_set.all()
+            for choice in choices:
+                totalvotes=totalvotes+choice.votes
+                poll_data["Choices"].append({
+                    "number": choice.pk,
+                    "choice_text": choice.choice_text,
+                    "votes": choice.votes
+                })
+            poll_data["TotalVotes"]=totalvotes
+            data_list.append(poll_data)
+
+    return JsonResponse(data_list, safe=False)
 
 
-def get_polls_data(request):
-    polls = Poll.objects.all()
-    poll_data_list = []
 
-    for poll in polls:
-        poll_data = {
-            "Question": poll.question_text,
-            "OptionVote": {
-                "Option1": poll.option1,
-                "Option2": poll.option2,
-                "Option3": poll.option3,
-            },
-            "Tags": [tag.name for tag in poll.tags.all()],
-        }
-        poll_data_list.append(poll_data)
 
-    return JsonResponse(poll_data_list, safe=False)
+   
+def get_polls_data(request,pk):
+    data = Question.objects.get(pk=pk)
+    data_list = []  
+ 
+    poll = Poll.objects.filter(pk=data.id).first()  # Get the corresponding Poll object
+    if poll:
+            totalvotes=0
+            poll_data = {
+                 "Number": data.id,
+                 "Question": data.question_text,
+                 "TotalVotes": totalvotes,
+                "Choices": [],
 
-def get_tags(request):
-    polls=Poll.objects.all()
-    tags
+                 "Tags": [tag.name for tag in poll.tags.all()],  # Use the reverse relationship
+             }
+            choices = data.choice_set.all()
+            for choice in choices:
+                 totalvotes=totalvotes+choice.votes
+                 poll_data["Choices"].append({
+                     "number": choice.pk,
+                     "choice_text": choice.choice_text,
+                     "votes": choice.votes
+                 })
+            poll_data["TotalVotes"]=totalvotes
+            data_list.append(poll_data)
+
+    return JsonResponse(data_list, safe=False)
+
+
+def all_data(request):
+    data = Question.objects.all()
+    data_list = []
+    
+   
+    for question in data:
+ 
+        # poll = Poll.objects.filter(id=question.id).first()  # Get the corresponding Poll object
+        # if poll:
+            totalvotes=0
+            poll_data = {
+                "Number": question.id,
+                "Question": question.question_text,
+                "TotalVotes": totalvotes,
+                "Tags": [tag.name for tag in question.tags.all()],  # Use the reverse relationship
+            }
+            choices = question.choice_set.all()
+            for choice in choices:
+                totalvotes=totalvotes+choice.votes
+                # poll_data["Choices"].append({
+                #     "choice_text": choice.choice_text,
+                #     "votes": choice.votes
+                # })
+            poll_data["TotalVotes"]=totalvotes
+            data_list.append(poll_data)
+
+    return JsonResponse(data_list, safe=False)
+
+# def get_table_data(request):
+#     polls = Poll.objects.all()
+#     poll_list = []
+
+#     for poll in polls:
+#         poll_data = {
+#             "Question": poll.question_text,
+#             "OptionVote": {
+#                 "Option1": poll.option1,
+#                 "Option2": poll.option2,
+#                 "Option3": poll.option3,
+#             },
+#             "Tags": [tag.name for tag in poll.tags.all()],
+#         }
+#         poll_data_list.append(poll_data)
+
+#     return JsonResponse(poll_data_list, safe=False)
+
 
 from django.views.decorators.csrf import csrf_protect
 
@@ -464,6 +550,122 @@ def filtered_polls(request):
           print("common elements:",set2.intersection(set1))
           print("question:",poll.question_text)
           print("options:",poll.option1,poll.option2,poll.option3)
+          print("tags:",set1)
+          print("\n")
+
+        #  print(set1),
+        #  print(set2)
+    # common=set1.intersection(set2)
+    # print(common)
+         
+        #  if set2.issubset(set1):
+        #      print(set2)
+        #      print(set1)
+        #      print(poll.question_text)
+        #      print(poll.option1,poll.option2,poll.option3)
+        #      print(set2)#tag
+            #  print("is a subset")
+
+
+    # for poll_tag in poll_tags:
+    #     print("inside for poll for loop")
+    #     print(poll_tag)
+    #     for tag in tags:
+    #         if tag.issubset(poll_tag):
+    #             print(tag)
+    #             print("inside for tag loop")
+             
+            
+   
+
+ 
+    # for poll in all_polls:
+    #     poll_tags = poll.tags.values_list('name', flat=False)  # Get a queryset of tag values
+    #     poll_tags = [tag[0] for tag in poll_tags]#converts the ORM (object relational mapping) sstem to strings taking only the first item from the list
+    #     for poll_tag in poll_tags:
+    #      for tag in tags:
+    #       if poll_tag == tag:
+    #         print(f"Matching tag: {poll_tag}")
+
+        
+
+
+
+       
+        
+        # if(a==b):
+        #  print("inside if")
+        #  print("they are same ")
+        # for p in poll_tags:
+        #  print(p)
+        #  print("inside for loop")
+        #  if p == tags:
+        #   print(p)
+        #   print("inside if condition")
+        # # Do something when a match is found
+        #   print(f"Matching tag: {p}")
+
+
+
+        # Extract tag values from the queryset into a list
+       
+
+
+
+
+
+
+        # Check if any of the specified tags are in the poll's tags
+        # if any(tag in poll_tags for tag in tags):
+        #     poll_data = {
+        #         "Question": poll.question_text,
+        #         "OptionVote": {
+        #             "Option1": poll.option1,
+        #             "Option2": poll.option2,
+        #             "Option3": poll.option3,
+        #         },
+        #         "Tags": poll_tags,
+        #     }
+        #     poll_data_list.append(poll_data)
+
+    return JsonResponse(poll_data_list, safe=False)
+from django.http import JsonResponse
+from .models import Poll,Tag,Question,Choice
+import collections
+import re
+def filtered_tags(request):
+    tags = request.GET.get('tags', '').split(',')
+
+    if not tags:
+        return JsonResponse([], safe=False)
+
+    poll_data_list = []
+
+    all_polls = Question.objects.all()
+    choices=Choice.objects.all()
+  
+    for poll in all_polls:
+         poll_tags = poll.tags.values_list('name', flat=False)#orm
+         poll_tags = [tag[0] for tag in poll_tags] 
+        #  print(type(tags))
+        #  print(type(poll_tags))
+         set1 = set(poll_tags)
+         set2 = set(tags)
+         set1 = set(','.join(set1).split(','))
+         set2 = set(','.join(set2).split(','))
+        #  print("before loop set2" ,set2)
+        #  print("before loop set1",set1)
+         if(set2.intersection(set1)):
+          print("Set1:",set1)
+          print("Set2:",set2)
+          print("common elements:",set2.intersection(set1))
+          print("question:",poll.question_text)
+        
+          choices = Choice.objects.filter(question__question_text=poll.question_text)
+            
+          
+          for choice in choices:
+                print("Choice: ", choice.choice_text)
           print("tags:",set1)
           print("\n")
 

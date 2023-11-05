@@ -6,9 +6,11 @@ import FilterBtn from "./FilterBtn";
 function SlideBar() {
   return (
     <>
-      <CreatePollBtn />
+     <div style={{display:"flex", flexDirection:"column",marginLeft:"2rem"}}>
+     <CreatePollBtn />
       <FilterBtn />
 
+     </div>
     </>
   );
 }
