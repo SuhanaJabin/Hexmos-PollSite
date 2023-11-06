@@ -8,6 +8,9 @@ import { Firstdata } from '../Data';
 import SecondData from '../SecondData';
 import FetchData from '../FetchData';
 import Table2 from '../Table2';
+const TagsContext =React.createContext({})//creating the context
+export const TagsProvider = TagsContext.Provider//creating a way to provide the context
+
 function Home() {
   return (
     <>

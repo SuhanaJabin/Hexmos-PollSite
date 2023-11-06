@@ -86,7 +86,7 @@ const FetchData =() => {
           if (json && json.length > 0) {
             setCvotes(json[0].Choices[0].votes[0]); // Set the initial question
           }
-          console.log(data[0].tags)
+     
 
               
   //     <h2>Fetched Data</h2>

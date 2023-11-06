@@ -10,17 +10,19 @@ function NPollDetail() {
   const { id } = useParams();
  
   const [data, setData] = useState(null);
+
   const[data2,setData2]=useState(null);
 
-  const[question,setQuestion]=useState("")
-  const[number,setNumber]=useState("")
-  const[votes,setVotes]=useState("")
-  const[tags,setTags]=useState([])
-  const[cnumber,setCnumber]=useState("")
-  const[ctext,setCtext]=useState("")
-  const[cvotes,setCvotes]=useState("")
+  const[question,setQuestion]=useState("");
+
+  const[number,setNumber]=useState("");
+  const[votes,setVotes]=useState("");
+  const[tags,setTags]=useState([]);
+  const[cnumber,setCnumber]=useState("");
+  const[ctext,setCtext]=useState("");
+  const[cvotes,setCvotes]=useState("");
   const url = `http://localhost:8000/polls/get-polls-data/${id}`;
-  console.log({id})
+  
 
   
 
@@ -32,9 +34,14 @@ function NPollDetail() {
         const response = await fetch(url);
         if (response.ok) {
           const json = await response.json();
-          console.log(json);
+       
           const columns=Object.keys(json[0])
           setData(json);
+          console.log("inside useffect hook");
+          console.log("Data is set as ",json);
+          if (data == null){console.log("no data available")}
+           
+          console.log(data[0].Tags[0])
        
           
            // Store the data in state for rendering
@@ -65,6 +72,10 @@ function NPollDetail() {
           }
         const no=id-1;
         const question=data[no].Question;
+        console.log("This is question in NPollDetail",question);
+        // let choices=data[no]["Choices"];
+        // console.log("These are the choices ",choices)
+
        
           
 
@@ -130,8 +141,9 @@ function NPollDetail() {
               <button style={{ marginBottom: "1rem" }} class="btn2">
                 <h4>Vote on this Poll</h4>
               </button>
-              <h3>{question}</h3>
-              <Table2 data={data} />
+              
+            
+              <Table2 data={data} id={id} />
                
       
        

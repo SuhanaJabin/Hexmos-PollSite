@@ -643,8 +643,10 @@ def filtered_tags(request):
 
     all_polls = Question.objects.all()
     choices=Choice.objects.all()
+    totalvotes=0
   
     for poll in all_polls:
+        
          poll_tags = poll.tags.values_list('name', flat=False)#orm
          poll_tags = [tag[0] for tag in poll_tags] 
         #  print(type(tags))
@@ -660,12 +662,15 @@ def filtered_tags(request):
           print("Set2:",set2)
           print("common elements:",set2.intersection(set1))
           print("question:",poll.question_text)
+         
         
           choices = Choice.objects.filter(question__question_text=poll.question_text)
             
           
           for choice in choices:
+                totalvotes=totalvotes+choice.votes
                 print("Choice: ", choice.choice_text)
+          print("Totalvotes:",totalvotes)
           print("tags:",set1)
           print("\n")
 

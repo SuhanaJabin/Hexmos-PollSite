@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom"
 function FilterBtn() {
   const navigate = useNavigate(); 
   const array={}
-  const[isChecked,setIsChecked]=useState([false,false,false,false]); // array named array created with false as the input elements.
+  const[isChecked,setIsChecked]=useState([false,false,false,false,false,false]); // array named array created with false as the input elements.
   const handleOnChange=(index)=>{
     const newCheckedState=[...isChecked];
     newCheckedState[index]= !newCheckedState[index];
@@ -27,10 +27,18 @@ function FilterBtn() {
       <br />
 
       <input type="checkbox" checked={isChecked[2]}  onChange={() => handleOnChange(2)} id="checkbox3" name="Health" />
-      <label for="checkbox3">Health</label>
+      <label for="checkbox3">Casual</label>
+      <br />
+      <input type="checkbox" checked={isChecked[3]}  onChange={() => handleOnChange(3)} id="checkbox3" name="Health" />
+      <label for="checkbox3">Feeling</label>
+      <br />
+      <input type="checkbox" checked={isChecked[4]}  onChange={() => handleOnChange(4)} id="checkbox3" name="Health" />
+      <label for="checkbox3">Mental Health</label>
       <br />
 
-      <input type="checkbox" checked={isChecked[3]}  onChange={() => handleOnChange(3)} id="checkbox4" name="Politics" />
+      
+
+      <input type="checkbox" checked={isChecked[5]}  onChange={() => handleOnChange(5)} id="checkbox4" name="Politics" />
       <label for="checkbox4">Politics</label>
      
     </div>
