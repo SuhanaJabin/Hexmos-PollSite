@@ -1,51 +1,78 @@
-import React from "react";
-import{useState} from "react";
-import {useNavigate} from "react-router-dom"
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-function FilterBtn() {
-  const navigate = useNavigate(); 
-  const array={}
-  const[isChecked,setIsChecked]=useState([false,false,false,false,false,false]); // array named array created with false as the input elements.
-  const handleOnChange=(index)=>{
-    const newCheckedState=[...isChecked];
-    newCheckedState[index]= !newCheckedState[index];
+function FilterBtn({ data2 }) {
+  const [TagsArray, setTagsArray] = useState([]);
+  const [SelTags, setSelTags] = useState([]); 
+  const [isChecked, setIsChecked] = useState([false, false, false, false, false, false]);
+  const navigate = useNavigate();
 
-    setIsChecked(newCheckedState);
+  if (!data2 || data2.length === 0) {
+    return <div>No data available</div>;
   }
- 
+
+
+  const Tags = ["feeling", "mentalhealth", "casual", "games", "sports", "politics"];
+ const print=()=>{
+  console.log("Tags for filtering:-");
+  {SelTags.map((tag,index)=>(
+   console.log({tag})
+   
+  ))}
+  const nonEmptyTags = SelTags.filter(tag => tag && tag.trim() !== "");
+
+  const mystring = nonEmptyTags.join(",");
+  console.log(mystring)
+  const url=`http://127.0.0.1:8000/polls/pollstag/?tags=${encodeURIComponent(mystring)}`;
+  navigate(url);
+
+ }
+
+  const handleOnChange = (index) => {
+    const newCheckedState = [...isChecked];
+    newCheckedState[index] = !newCheckedState[index];
+    setIsChecked(newCheckedState);
+  
+   let i;
+
+    if (newCheckedState[index]) {
+      setTagsArray((prevTagsArray) => [...prevTagsArray, Tags[index]]);
+      console.log("done")
+      SelTags[index]=Tags[index];
+      console.log("This is the selected tag",SelTags[index]);
+     
+    
+
+    } else {
+      setTagsArray((prevTagsArray) => prevTagsArray.filter((tag) => tag !== Tags[index]));
+    }
+  
+  };
+
+
   return (
     <>
-    <div style={{backgroundColor:"rgb(212, 208, 208",boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)",height:"200px"}}>
-    <div style={{padding:"1rem",}}>
-      
-      <input type="checkbox" checked={isChecked[0]} o onChange={() => handleOnChange(0)} id="checkbox1" name="Sports" />
-      <label for="checkbox1">Sports</label>
-      <br />
+      <div style={{  backgroundColor: "rgb(212, 208, 208)", boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)", height: "200px" }}>
+        <div style={{ padding: "1rem" }}>
+          {data2["Tags"].map((tag, index) => (
+            <div key={index}>
+              <input type='checkbox' checked={isChecked[index]} onChange={() => handleOnChange(index)} name={tag}></input>
+              <label htmlFor={`checkbox${index}`}>{tag}</label>
 
-      <input type="checkbox" checked={isChecked[1]}  onChange={() => handleOnChange(1)} id="checkbox2" name="Games" />
-      <label for="checkbox2">Games</label>
-      <br />
-
-      <input type="checkbox" checked={isChecked[2]}  onChange={() => handleOnChange(2)} id="checkbox3" name="Health" />
-      <label for="checkbox3">Casual</label>
-      <br />
-      <input type="checkbox" checked={isChecked[3]}  onChange={() => handleOnChange(3)} id="checkbox3" name="Health" />
-      <label for="checkbox3">Feeling</label>
-      <br />
-      <input type="checkbox" checked={isChecked[4]}  onChange={() => handleOnChange(4)} id="checkbox3" name="Health" />
-      <label for="checkbox3">Mental Health</label>
-      <br />
-
-      
-
-      <input type="checkbox" checked={isChecked[5]}  onChange={() => handleOnChange(5)} id="checkbox4" name="Politics" />
-      <label for="checkbox4">Politics</label>
+              <br />
+            </div>
+          ))}
+        </div>
+        <div style={{ padding: "1rem" }}>
+          <button onClick={() => print()}>Filter by tags</button>
+        </div>
+        {/* <div>
+        {SelTags.map((tag,index)=>(
+      <p key={index}>{tag}</p>
      
-    </div>
-    <div style={{padding:"1rem"}}>
-    <button >Filter by tags</button>
-    </div>
-    </div>
+    ))}
+        </div> */}
+      </div>
     </>
   );
 }

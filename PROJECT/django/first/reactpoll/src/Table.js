@@ -4,7 +4,7 @@ function Table({data}) {
     if (!data || data.length === 0) {
         return <div> {data} </div>;
       }
-    console.log({data})
+    console.log("This is table data" ,{data})
  
 
     const columns=Object.keys(data[0]);
@@ -17,32 +17,7 @@ function Table({data}) {
           </tr>
         );
       };
-         {/* <td key={column}>{rowData[column]}</td> */}
-    //get table row data
-    // const TableBody = ({data}) => {
-        // return data.map((rowData, rowIndex) => (
-        //   // <tr key={rowIndex}>
-        //   //   {columns.map((column) => (
-           
-        //   //     <td key={column}>{rowData.Choices.choice_text}</td>
-        //   //   ))}
-        //   // </tr>
-        //   <tr key={rowIndex}>{data.Choices.choice_text}</tr>
-      //   // ));
-      //   return(
-      //     if (data.Choices && data.Choices.length > 0) {
-      //       return (
-      //         <tr>
-      //           {data.Choices.map((choice, index) => (
-      //             <td key={index}>{choice.choice_text}</td>
-      //           ))}
-      //         </tr>
-      //       );
-      //     } else {
-      //       return <tr>No choices available</tr>;
-      //     }
-      //   )
-      // };
+ 
 
       
 
@@ -63,7 +38,7 @@ const TableBody = ({ data }) => {
     
       return (
         <div>
-        <h2>Table</h2>
+
         <table>
           <thead>
             <tr>

@@ -1,42 +1,14 @@
-// import React,{useEffect} from 'react'
-// //useffect is used for fetching the data
-
-// const FetchData = () => {
-//     useEffect(()=>{
-//         const url="http://localhost:8000/polls/get-polls-data/"
-
-//         const fetchData = async () =>{
-//             try{
-//                 const response = await fetch(url);
-//                 console.log(response)
-//                 // console.log(response.json)
-//const json = await response.json();
-//                 // console.log(json)
-//                 console.log(json.data);
-//const data=JSON.stringify()
-//             }catch(error){
-//                 console.log("error",error);
-//             }
-//         }
-//         fetchData();
-
-//     },[]);//second argument is given as an empty array so that the function only gets rendered once.
-//   return (
-//     <div>FetchData</div>
-//   )
-// }
-
-// export default FetchData
-
 import React, { useEffect, useState } from 'react';
 import Table from './Table';
 import Table2 from './Table2';
 import { useParams } from 'react-router-dom';
+import FilterBtn from './FilterBtn';
+import SlideBar from './SlideBar';
 
 const FetchData =() => {
   const { id } = useParams();
   const [data, setData] = useState(null);
-  const[data2,setData2]=useState(null);
+  const[data2,setData2]=useState([]);
 
 
   const[question,setQuestion]=useState("")
@@ -50,11 +22,32 @@ const FetchData =() => {
 
   useEffect(() => {
     const url =`http://localhost:8000/polls/get-polls-data/`;
+    const url2 =`http://localhost:8000/polls/list_tags/`;
+    const TagData = async () =>{
+      try{
+        const response = await fetch(url2);
+        if (response.ok) {
+          const json2 = await response.json();
+          console.log("This is tags",json2);
+          setData2(json2);
+     
+          console.log("This is ", data2)
+        } else {
+          console.error('Request failed with status:', response.status);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+          
+      }
+    TagData();
+    
   
 
     const fetchData = async () => {
       try {
         const response = await fetch(url);
+      
         if (response.ok) {
           const json = await response.json();
           const columns=Object.keys(json[0])
@@ -88,29 +81,6 @@ const FetchData =() => {
           }
      
 
-              
-  //     <h2>Fetched Data</h2>
-    
-  //     {data.map((item) => (
-  //       <div key={item.Number}
-  //       >
-  //       <table>
-  //       <thead><tr>
-  //         {columns.map((column) => (
-  //         <th key={column}>{column}</th>
-  //       ))}
-  //         </tr></thead>
-          
-  //       </table>
-  //       <p>Id: {item.Number}</p>
-  //         <h3>Question: {item.Question}</h3>
-  //         <h3>{item.TotalVotes}</h3>
-  //         <h3>{item.Tags}</h3>
-  
-          
-  //         {/* You can display other attributes here */}
-  //       </div>
-  // ))}
 
 
         } else {
@@ -124,7 +94,7 @@ const FetchData =() => {
     };
    
     fetchData();
-   
+
 
 
 
@@ -135,10 +105,18 @@ const FetchData =() => {
    // second argument is given as an empty array so that the function only gets rendered once.
 
   return (
-    <div>
-    <Table data={data}/>
+    <div style={{display:"flex"}} >
+    {/* <div>  <FilterBtn data2={data2} /></div> */}
+    <SlideBar data2={data2} />
+    <div>  <Table data={data}/></div>
+
+  
+  
+   
+   
+  
     
-  {/* <Table2 data={data} />   */}
+
 
     
     </div>

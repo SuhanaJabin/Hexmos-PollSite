@@ -6,19 +6,18 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_protect
+from django.middleware.csrf import get_token
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+from django.db import connection
+from .models import Poll, Tag,Question,Choice
+from django.http import  Http404
 
-# def index(request):
-#     latest_question_list = Question.objects.order_by('-pub_date')[:5]
-#     context = {'latest_question_list': latest_question_list}
-#     return render(request, 'polls/index.html', context)
-
-# def results(request, question_id):
-#     question = get_object_or_404(Question, pk=question_id)
-#     return render(request, 'polls/results.html', {'question': question})
-
-# def detail(request, question_id):
-#     question = get_object_or_404(Question, pk=question_id)
-#     return render(request, 'polls/detail.html', {'question': question})
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -59,11 +58,7 @@ def vote(request, question_id):
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
     
 
- # polls/views.py
 
-
-    # votes=Choice(votes).objects.all()
-    # choices=Choice(choice_text).objects.all()
 
 def get_questions_data(request,pk):
     data = Question.objects.get(pk=pk)
@@ -132,8 +127,6 @@ def all_data(request):
    
     for question in data:
  
-        # poll = Poll.objects.filter(id=question.id).first()  # Get the corresponding Poll object
-        # if poll:
             totalvotes=0
             poll_data = {
                 "Number": question.id,
@@ -144,119 +137,24 @@ def all_data(request):
             choices = question.choice_set.all()
             for choice in choices:
                 totalvotes=totalvotes+choice.votes
-                # poll_data["Choices"].append({
-                #     "choice_text": choice.choice_text,
-                #     "votes": choice.votes
-                # })
+             
             poll_data["TotalVotes"]=totalvotes
             data_list.append(poll_data)
 
     return JsonResponse(data_list, safe=False)
 
-# def get_table_data(request):
-#     polls = Poll.objects.all()
-#     poll_list = []
-
-#     for poll in polls:
-#         poll_data = {
-#             "Question": poll.question_text,
-#             "OptionVote": {
-#                 "Option1": poll.option1,
-#                 "Option2": poll.option2,
-#                 "Option3": poll.option3,
-#             },
-#             "Tags": [tag.name for tag in poll.tags.all()],
-#         }
-#         poll_data_list.append(poll_data)
-
-#     return JsonResponse(poll_data_list, safe=False)
 
 
-from django.views.decorators.csrf import csrf_protect
 
-# views.py
-
-from django.middleware.csrf import get_token
-from django.http import JsonResponse
 
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrf_token': csrf_token})
 
-from django.views.decorators.csrf import csrf_exempt
-import json
 
 
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
-import json
 
 @csrf_exempt
-# def my_view(request):
-#     if request.method == 'POST':
-#         try:
-           
-#             json_data = json.loads(request.body)
-          
-#             return render(request, 'polls/my_template.html', {'json_data': json.dumps(json_data, indent=4)})
-#         except json.JSONDecodeError:
-           
-#             return HttpResponse('Invalid JSON data', status=400)
-#     else:
-        
-#         return HttpResponse('This view only accepts POST requests', status=405)
-
-# def my_view(request):
-#     if request.method == 'POST':
-#         try:
-#             json_data = json.loads(request.body)
-#             # Create an instance of the Poll model and populate it with data
-#             poll = Poll(
-#                 question_text=json_data['question_text'],
-#                 option1=json_data['option1'],
-#                 option2=json_data['option2'],
-#                 option3=json_data['option3']
-#             )
-#             poll.save()  # Save the instance to the database
-
-#             # If you have tags associated with the Poll, you can add them here
-#             # For example, if you have a list of tag names in json_data:
-#             tag_names = json_data.get('tags', [])
-#             for tag_name in tag_names:
-#                 tag, created = Tag.objects.get_or_create(name=tag_name)
-#                 poll.tags.add(tag)
-
-#             return HttpResponse('Data saved successfully')
-#         except json.JSONDecodeError:
-#             return HttpResponse('Invalid JSON data', status=400)
-#     else:
-#         return HttpResponse('This view only accepts POST requests', status=405)
-
-# def incVote(request,pk):
-#     if request.method == 'PUT':
-#          question=Question.objects.get(pk=pk)
-#          choices = Choice.objects.filter(question=question)
-#          payload = request.POST 
-
-#          if 'incrementOption' in payload:
-#              increment_option=payload['incrementOption']
-
-
- 
-#          list = {
-#             "Question": question.question_text,
-#             "Choices":[]   #created an empty array
-#          }
-#          for choice in choices:
-#              choice_data={
-#                  "Choice": choice.choice_text,
-#                  "Votes": choice.votes,
-                 
-#              }
-#              list["Choices"].append(choice_data)
-      
-#     return JsonResponse(list, safe=False)
 
 
 def incVote(request, pk):
@@ -340,31 +238,6 @@ def createQuestion(request):
     else:
         return HttpResponse('This view only accepts POST requests', status=405)
 
-
-from django.http import JsonResponse
-
-# # Mock data
-# data = [
-#     {
-#         "Question": "question_text",
-#         "OptionVote": {
-#             "Option1": "vote1",
-#             "Option2": "vote2",
-#             "Option3": "vote3"
-#         },
-#         "Tags": ["tag1", "tag2"]
-#     },
-# ]
-
-# def get_pollsurl(request):
-  
-#     tags = request.GET.get('tags', '').split(',')
-#     filtered_data = [poll for poll in data if all(tag in poll['Tags'] for tag in tags)]
-
-#     return JsonResponse(filtered_data, safe=False)
-from django.http import JsonResponse
-
-
 poll_data = {
     "Question": "question_text",
     "OptionVote": {
@@ -384,145 +257,6 @@ def get_pollsurl(request, *args, **kwargs):
 
     return JsonResponse(poll_data)
 
-from django.http import HttpResponse
-
-from django.db import connection
-
-# def filtered_polls(request):
-#     tags = request.GET.getlist('tags')
-
-#     print("Received tags:", tags)
-
-#     polls = Poll.objects.filter(tags__name__in=tags)
-
-#     print("Number of filtered polls:", polls.count())
-
-#     # Print the generated SQL query for debugging
-#     print(connection.queries)
-
-#     return render(request, 'polls/filtered_polls.html', {'polls': polls})
-
-# def filtered_polls(request):
-#     # Get the tags from the query parameters in the URL
-#     tags = request.GET.get('tags', '').split(',')
-
-#     # Filter the questions based on the selected tags
-#     questions = Question.objects.filter(tags__name__in=tags)
-
-#     return render(request, 'polls/filtered_polls.html', {'questions': questions})
-
-# def filtered_polls(request):
-#     print(request)
-#     tags = request.GET.getlist('tags')
-#     print(tags)
-#     # polls = Poll.objects.filter(tags__name__in=tags)
-#     polls = Poll.objects.all()
-#     poll_data_list = []
-
-#     for poll in polls:
-#         if(tags.name==poll_data.Tags):
-#          poll_data = {
-#             "Question": poll.question_text,
-#             "OptionVote": {
-#                 "Option1": poll.option1,
-#                 "Option2": poll.option2,
-#                 "Option3": poll.option3,
-#             },
-#             "Tags": [tag.name for tag in poll.tags.all()],
-#         }
-#         poll_data_list.append(poll_data)
-
-#     print(polls)
-#     return JsonResponse(poll_data_list, safe=False)
-
-from django.http import JsonResponse
-from .models import Poll, Tag
-
-from django.http import JsonResponse
-from .models import Poll, Tag
-
-
-
-# def filtered_polls(request):
-#     tags = request.GET.getlist('tags')
-#     print(tags)
-
-#     if not tags:
-#         return JsonResponse([], safe=False)
-
-#     poll_data_list = []
-
-
-#     all_polls = Poll.objects.all()
-    
-
-#     for poll in all_polls:
-       
-#         poll_tags = list(poll.tags.values_list('name', flat=True))
-#         print(poll_tags)
-    
-
-#         # Check if all specified tags are in the poll's tags
-#         x=any(tag in poll_tags for tag in tags)
-#         print(x)
-#         if any(tag in poll_tags for tag in tags):
-#             poll_data = {
-#                 "Question": poll.question_text,
-#                 "OptionVote": {
-#                     "Option1": poll.option1,
-#                     "Option2": poll.option2,
-#                     "Option3": poll.option3,
-#                 },
-#                 "Tags": poll_tags,
-#             }
-#             print(poll_data)
-#             print("This is poll_data")
-          
-         
-#             poll_data_list.append(poll_data)
-#     print("this is poll_data_list")
-#     print(poll_data_list)
-
-#     return JsonResponse(poll_data_list, safe=False)
-
-from django.http import JsonResponse
-from .models import Poll
-
-# def filtered_polls(request):
-#     tags = request.GET.get('tags', '').split(',')
-#     print(tags)
-
-#     if not tags:
-#         return JsonResponse([], safe=False)
-
-#     poll_data_list = []
-
-#     # Filter polls that match any of the specified tags
-#     matching_polls = Poll.objects.filter(tags__name__in=tags).distinct()
-#     print(matching_polls)
-   
-
-#     for poll in matching_polls:
-#         poll_data = {
-#             "Question": poll.question_text,
-#             "OptionVote": {
-#                 "Option1": poll.option1,
-#                 "Option2": poll.option2,
-#                 "Option3": poll.option3,
-#             },
-#             "Tags": list(poll.tags.values_list('name', flat=True))
-#         }
-#         poll_data_list.append(poll_data)
-#         print(poll_data)
-    
-#     print(poll_data_list)
-
-#     return JsonResponse(poll_data_list, safe=False)
-
-from django.http import JsonResponse
-from .models import Poll,Tag
-import collections
-import re
 def filtered_polls(request):
     tags = request.GET.get('tags', '').split(',')
 
@@ -553,88 +287,12 @@ def filtered_polls(request):
           print("tags:",set1)
           print("\n")
 
-        #  print(set1),
-        #  print(set2)
-    # common=set1.intersection(set2)
-    # print(common)
-         
-        #  if set2.issubset(set1):
-        #      print(set2)
-        #      print(set1)
-        #      print(poll.question_text)
-        #      print(poll.option1,poll.option2,poll.option3)
-        #      print(set2)#tag
-            #  print("is a subset")
-
-
-    # for poll_tag in poll_tags:
-    #     print("inside for poll for loop")
-    #     print(poll_tag)
-    #     for tag in tags:
-    #         if tag.issubset(poll_tag):
-    #             print(tag)
-    #             print("inside for tag loop")
-             
-            
-   
-
- 
-    # for poll in all_polls:
-    #     poll_tags = poll.tags.values_list('name', flat=False)  # Get a queryset of tag values
-    #     poll_tags = [tag[0] for tag in poll_tags]#converts the ORM (object relational mapping) sstem to strings taking only the first item from the list
-    #     for poll_tag in poll_tags:
-    #      for tag in tags:
-    #       if poll_tag == tag:
-    #         print(f"Matching tag: {poll_tag}")
-
-        
-
-
-
        
-        
-        # if(a==b):
-        #  print("inside if")
-        #  print("they are same ")
-        # for p in poll_tags:
-        #  print(p)
-        #  print("inside for loop")
-        #  if p == tags:
-        #   print(p)
-        #   print("inside if condition")
-        # # Do something when a match is found
-        #   print(f"Matching tag: {p}")
-
-
-
-        # Extract tag values from the queryset into a list
-       
-
-
-
-
-
-
-        # Check if any of the specified tags are in the poll's tags
-        # if any(tag in poll_tags for tag in tags):
-        #     poll_data = {
-        #         "Question": poll.question_text,
-        #         "OptionVote": {
-        #             "Option1": poll.option1,
-        #             "Option2": poll.option2,
-        #             "Option3": poll.option3,
-        #         },
-        #         "Tags": poll_tags,
-        #     }
-        #     poll_data_list.append(poll_data)
-
     return JsonResponse(poll_data_list, safe=False)
-from django.http import JsonResponse
-from .models import Poll,Tag,Question,Choice
-import collections
-import re
+
 def filtered_tags(request):
     tags = request.GET.get('tags', '').split(',')
+    tags = request.GET.get('tags', '').split('%2C')
 
     if not tags:
         return JsonResponse([], safe=False)
@@ -649,14 +307,12 @@ def filtered_tags(request):
         
          poll_tags = poll.tags.values_list('name', flat=False)#orm
          poll_tags = [tag[0] for tag in poll_tags] 
-        #  print(type(tags))
-        #  print(type(poll_tags))
+       
          set1 = set(poll_tags)
          set2 = set(tags)
          set1 = set(','.join(set1).split(','))
          set2 = set(','.join(set2).split(','))
-        #  print("before loop set2" ,set2)
-        #  print("before loop set1",set1)
+      
          if(set2.intersection(set1)):
           print("Set1:",set1)
           print("Set2:",set2)
@@ -674,80 +330,7 @@ def filtered_tags(request):
           print("tags:",set1)
           print("\n")
 
-        #  print(set1),
-        #  print(set2)
-    # common=set1.intersection(set2)
-    # print(common)
-         
-        #  if set2.issubset(set1):
-        #      print(set2)
-        #      print(set1)
-        #      print(poll.question_text)
-        #      print(poll.option1,poll.option2,poll.option3)
-        #      print(set2)#tag
-            #  print("is a subset")
-
-
-    # for poll_tag in poll_tags:
-    #     print("inside for poll for loop")
-    #     print(poll_tag)
-    #     for tag in tags:
-    #         if tag.issubset(poll_tag):
-    #             print(tag)
-    #             print("inside for tag loop")
-             
-            
-   
-
- 
-    # for poll in all_polls:
-    #     poll_tags = poll.tags.values_list('name', flat=False)  # Get a queryset of tag values
-    #     poll_tags = [tag[0] for tag in poll_tags]#converts the ORM (object relational mapping) sstem to strings taking only the first item from the list
-    #     for poll_tag in poll_tags:
-    #      for tag in tags:
-    #       if poll_tag == tag:
-    #         print(f"Matching tag: {poll_tag}")
-
-        
-
-
-
        
-        
-        # if(a==b):
-        #  print("inside if")
-        #  print("they are same ")
-        # for p in poll_tags:
-        #  print(p)
-        #  print("inside for loop")
-        #  if p == tags:
-        #   print(p)
-        #   print("inside if condition")
-        # # Do something when a match is found
-        #   print(f"Matching tag: {p}")
-
-
-
-        # Extract tag values from the queryset into a list
-       
-
-
-
-
-
-
-        # Check if any of the specified tags are in the poll's tags
-        # if any(tag in poll_tags for tag in tags):
-        #     poll_data = {
-        #         "Question": poll.question_text,
-        #         "OptionVote": {
-        #             "Option1": poll.option1,
-        #             "Option2": poll.option2,
-        #             "Option3": poll.option3,
-        #         },
-        #         "Tags": poll_tags,
-        #     }
-        #     poll_data_list.append(poll_data)
 
     return JsonResponse(poll_data_list, safe=False)
 
@@ -755,17 +338,20 @@ def filtered_tags(request):
 
 
 
-
-
-from django.http import JsonResponse
-from .models import Tag
-
+@csrf_exempt
 def list_tags(request):
-    tags = Tag.objects.values_list('name', flat=True)
-    return JsonResponse({'tags': list(tags)}, safe=False)
+    tags=Tag.objects.all()
+    Tag_list=[]
 
-from django.http import JsonResponse, Http404
-from .models import Poll
+    if tags:
+        Tag_list={
+        "Tags":[tag.name for tag in tags]
+        }
+    return JsonResponse(Tag_list,safe=False)
+
+
+
+
 
 def get_poll_detailsid(request, poll_id):
     try:

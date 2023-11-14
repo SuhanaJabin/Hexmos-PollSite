@@ -3,14 +3,21 @@ import CreatePollBtn from "./CreatePollBtn";
 import FilterBtn from "./FilterBtn";
 
 //CreatePollBtn & FilterComp
-function SlideBar() {
+function SlideBar({data2}) {
+  console.log("This is the data in Slidebar: ",data2);
   return (
     <>
-     <div style={{display:"flex", flexDirection:"column",marginLeft:"2rem"}}>
+  
+     <div style={{display:"flex", flexDirection:"column",marginRight:"2rem"}}>
+     
      <CreatePollBtn />
-      <FilterBtn />
+     <FilterBtn data2={data2}/>
+ 
+   
 
      </div>
+
+
     </>
   );
 }
