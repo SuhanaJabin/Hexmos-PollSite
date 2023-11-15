@@ -274,8 +274,8 @@ def filtered_polls(request):
         #  print(type(poll_tags))
          set1 = set(poll_tags)
          set2 = set(tags)
-         set1 = set(','.join(set1).split(','))
-         set2 = set(','.join(set2).split(','))
+        #  set1 = set(','.join(set1).split(','))
+        #  set2 = set(','.join(set2).split(','))
         #  print("before loop set2" ,set2)
         #  print("before loop set1",set1)
          if(set2.intersection(set1)):
@@ -293,9 +293,11 @@ def filtered_polls(request):
 def filtered_tags(request):
     tags = request.GET.get('tags', '').split(',')
     tags = request.GET.get('tags', '').split('%2C')
+    # tags = request.GET.get('tags', '').split('%2C')
 
     if not tags:
         return JsonResponse([], safe=False)
+    data_list=[]
 
     poll_data_list = []
 
@@ -314,9 +316,10 @@ def filtered_tags(request):
          set2 = set(','.join(set2).split(','))
       
          if(set2.intersection(set1)):
+          common_tags = list(set2.intersection(set1))
           print("Set1:",set1)
           print("Set2:",set2)
-          print("common elements:",set2.intersection(set1))
+          print("common elements:", common_tags)
           print("question:",poll.question_text)
          
         
@@ -328,7 +331,16 @@ def filtered_tags(request):
                 print("Choice: ", choice.choice_text)
           print("Totalvotes:",totalvotes)
           print("tags:",set1)
+        #   tags=str(set1)
           print("\n")
+          data_list={
+              "Number":poll.id,
+              "Question":poll.question_text,
+              "TotalVotes":totalvotes,
+              "Tags":common_tags
+            
+          }
+          poll_data_list.append(data_list)
 
        
 

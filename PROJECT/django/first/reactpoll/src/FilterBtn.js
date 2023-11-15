@@ -22,9 +22,29 @@ function FilterBtn({ data2 }) {
   const nonEmptyTags = SelTags.filter(tag => tag && tag.trim() !== "");
 
   const mystring = nonEmptyTags.join(",");
-  console.log(mystring)
-  const url=`http://127.0.0.1:8000/polls/pollstag/?tags=${encodeURIComponent(mystring)}`;
-  navigate(url);
+
+  // navigate(url);
+
+  const[tag,setTag]=useState(null);
+
+  useEffect(()=>{
+    const url=`http://127.0.0.1:8000/polls/pollstag/?tags=${encodeURIComponent(mystring)}`;
+    try{
+      const response = await fetch(url)
+      if(response.ok)
+      {
+        const json=await response.json();
+        console.log("This is json ",json);
+      }
+      else{
+        console.error("Request failed")
+      }
+    }catch(error)
+    {
+      console.error("Error",error)
+    }
+
+  })
 
  }
 
