@@ -1,73 +1,74 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import Table from "./Table";
 
 function FilterBtn({ data2 }) {
   const [TagsArray, setTagsArray] = useState([]);
   const [SelTags, setSelTags] = useState([]); 
   const [isChecked, setIsChecked] = useState([false, false, false, false, false, false]);
-  const navigate = useNavigate();
-
-  if (!data2 || data2.length === 0) {
-    return <div>No data available</div>;
-  }
-
-
   const Tags = ["feeling", "mentalhealth", "casual", "games", "sports", "politics"];
- const print=()=>{
-  console.log("Tags for filtering:-");
-  {SelTags.map((tag,index)=>(
-   console.log({tag})
-   
-  ))}
-  const nonEmptyTags = SelTags.filter(tag => tag && tag.trim() !== "");
+  // const data =`http://localhost:8000/polls/get-polls-data/`;
+  const [tag, setTag] = useState(null);
+  const [shouldRunEffect, setShouldRunEffect] = useState(false);
+  const navigate = useNavigate();
+  const prevNonEmptyTagsRef = useRef([]);
 
-  const mystring = nonEmptyTags.join(",");
+  let nonEmptyTags = SelTags.filter(tag => tag && tag.trim() !== "");
+  let mystring = nonEmptyTags.join(",");
 
-  // navigate(url);
+  useEffect(() => {
+    const prevNonEmptyTags = prevNonEmptyTagsRef.current;
 
-  const[tag,setTag]=useState(null);
+    if (shouldRunEffect && prevNonEmptyTags !== nonEmptyTags && nonEmptyTags.length > 0) {
+      const url = `http://127.0.0.1:8000/polls/pollstag/?tags=${encodeURIComponent(mystring)}`;
 
-  useEffect(()=>{
-    const url=`http://127.0.0.1:8000/polls/pollstag/?tags=${encodeURIComponent(mystring)}`;
-    try{
-      const response = await fetch(url)
-      if(response.ok)
-      {
-        const json=await response.json();
-        console.log("This is json ",json);
-      }
-      else{
-        console.error("Request failed")
-      }
-    }catch(error)
-    {
-      console.error("Error",error)
+      const myData = async () => {
+        try {
+          const response = await fetch(url);
+          if (response.ok) {
+            const json = await response.json();
+            setTag(json);
+          } else {
+            console.error("Request failed");
+          }
+        } catch (error) {
+          console.error("Error", error);
+        }
+      };
+
+      myData();
+      prevNonEmptyTagsRef.current = nonEmptyTags;
+      setShouldRunEffect(false); // Reset the flag after running the effect
     }
+  }, [shouldRunEffect, nonEmptyTags]);
 
-  })
+  const print = () => {
+    console.log("Tags for filtering:-");
+    SelTags.forEach((tag, index) => {
+      console.log(tag);
+    });
 
- }
+    // Set the flag to true to trigger the useEffect on the next render
+    setShouldRunEffect(true);
+  };
 
   const handleOnChange = (index) => {
     const newCheckedState = [...isChecked];
     newCheckedState[index] = !newCheckedState[index];
     setIsChecked(newCheckedState);
-  
-   let i;
 
     if (newCheckedState[index]) {
       setTagsArray((prevTagsArray) => [...prevTagsArray, Tags[index]]);
-      console.log("done")
-      SelTags[index]=Tags[index];
-      console.log("This is the selected tag",SelTags[index]);
-     
-    
-
+      setSelTags((prevSelTags) => [...prevSelTags, Tags[index]]);
     } else {
       setTagsArray((prevTagsArray) => prevTagsArray.filter((tag) => tag !== Tags[index]));
+      setSelTags((prevSelTags) => prevSelTags.filter((tag) => tag !== Tags[index]));
     }
-  
   };
+
+  if (!data2 || data2.length === 0) {
+    return <div>No data available</div>;
+  }
 
 
   return (
@@ -93,6 +94,7 @@ function FilterBtn({ data2 }) {
     ))}
         </div> */}
       </div>
+      <Table data={tag} />
     </>
   );
 }
