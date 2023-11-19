@@ -50,21 +50,13 @@ const TableBody = ({ data }) => {
           </thead>
           <tbody>
           {/* <a href="{% url 'polls:detail' question.id %}">Vote again?</a> */}
-            {data.map((item) => (
+          {data.map((item) => (
               <tr key={item.Number}>
                 <td>{item.Number}</td>
     
                 {/* <td><a href={`http://localhost:8000/polls/get-polls-data/${item.Number}`}> {item.Question} </a></td> */}
                 <td><a href={`/poll/${item.Number}`}>{item.Question}</a></td>
-                {/* <td>
-                  <ul>
-                    {item.Choices.map((choice) => (
-                      <li key={choice.number}>
-                        {choice.choice_text} ({choice.votes} votes)
-                      </li>
-                    ))}
-                  </ul>
-                </td> */}
+             
                 <td>{item.TotalVotes}</td>
                 <td>{item.Tags.join(', ')}</td>
               </tr>

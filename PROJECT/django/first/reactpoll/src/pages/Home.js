@@ -12,6 +12,7 @@ const TagsContext =React.createContext({})//creating the context
 export const TagsProvider = TagsContext.Provider//creating a way to provide the context
 
 function Home() {
+
   
   
  
@@ -26,7 +27,9 @@ function Home() {
       <div style={{display:"flex"}}>
    
        <Maincomp />
-       <FetchData />
+       {/* <FetchData /> */}
+       <SlideBar />
+   
     
        
        
