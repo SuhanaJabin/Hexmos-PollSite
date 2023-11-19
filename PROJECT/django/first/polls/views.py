@@ -17,6 +17,8 @@ from django.http import HttpResponse
 from django.db import connection
 from .models import Poll, Tag,Question,Choice
 from django.http import  Http404
+from django.utils import timezone
+import datetime
 
 
 class IndexView(generic.ListView):
@@ -198,6 +200,7 @@ def incVote(request, pk):
 
 
 
+@csrf_exempt
 def createQuestion(request):
     if request.method == 'POST':
         try:
@@ -205,38 +208,47 @@ def createQuestion(request):
             question_text = json_data.get("Question")
             options = json_data.get("OptionVote", {})
             tags = json_data.get("Tags", [])
+            votes = json_data.get("Votes", [])
+            totalvotes=json_data.get("TotalVotes")
 
             if not question_text:
                 return HttpResponse('Question text is required', status=400)
 
-            # Create a Poll instance
-            poll = Poll(question_text=question_text)
-            print(question_text)
-            poll.save() 
-            print(tags) # Save the initial Poll instance
+            # Create a Question instance
+            question = Question(question_text=question_text, pub_date=timezone.now())
+            question.save()
 
-            # Create Option instances and associate them with the Poll
+            # Create Choice instances and associate them with the Question
             for option_number, option_text in options.items():
                 # Extract the option number (e.g., "Option 1" -> 1)
                 option_number = int(option_number.split()[-1])
-                # Create the option
-                setattr(poll, f'option{option_number}', option_text)
+                # Create the Choice instance
+                choice = Choice(question=question, choice_text=option_text)
+                choice.save()
 
-            # Save the Poll instance after adding options
-            poll.save()
+            # Set votes for each choice
+          
+            sum_votes = 0
+            for i, vote in enumerate(votes):
+              vote_as_int = int(vote)  # Convert the vote to an integer
+              choice = question.choice_set.get(choice_text=options[f"Option {i+1}"])
+              choice.votes = vote_as_int
+              choice.save()
+              sum_votes += vote_as_int
 
-            # Create Tag instances and associate them with the Poll
+            # Create Tag instances and associate them with the Question
             for tag_name in tags:
                 tag, created = Tag.objects.get_or_create(name=tag_name)
-                poll.tags.add(tag)
-            
-            print(f"Saved question with id: {poll.id}")
+                question.tags.add(tag)
+
+            print(f"Saved question with id: {question.id}")
 
             return HttpResponse('Data saved successfully')
         except json.JSONDecodeError:
             return HttpResponse('Invalid JSON data', status=400)
     else:
         return HttpResponse('This view only accepts POST requests', status=405)
+
 
 poll_data = {
     "Question": "question_text",

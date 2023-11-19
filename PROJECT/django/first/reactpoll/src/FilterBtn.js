@@ -10,7 +10,7 @@ function FilterBtn() {
   const [value, setValue] = useState(1);
   const [pollsdata, setPollsData] = useState(null);
   const [isChecked, setIsChecked] = useState([false, false, false, false, false, false]);
-  const Tags = ["feeling", "mental health", "casual", "games", "sports", "politics"];
+  const Tags = ["day", "mother", "writer", "ocean", "bone", "small"];
   const [tag, setTag] = useState(null);
   const [shouldRunEffect, setShouldRunEffect] = useState(false);
   const navigate = useNavigate();
@@ -85,12 +85,20 @@ function FilterBtn() {
       myData();
       prevNonEmptyTagsRef.current = nonEmptyTags;
       setShouldRunEffect(false); // Reset the flag after running the effect
+      if(!nonEmptyTags)
+      {
+        setValue(1);
+      }
     }
   }, [shouldRunEffect, nonEmptyTags]);
 
   const print = () => {
     setValue(2);
     console.log("Tags for filtering:-");
+    if(SelTags.length===0)
+    {
+      setValue(1);
+    }
     SelTags.forEach((tag, index) => {
       console.log(tag);
     });
@@ -108,11 +116,25 @@ function FilterBtn() {
     if (newCheckedState[index]) {
       setTagsArray((prevTagsArray) => [...prevTagsArray, Tags[index]]);
       setSelTags((prevSelTags) => [...prevSelTags, Tags[index]]);
+
+      if(!SelTags){
+        setValue(1);
+        
+
+      }
+     
+     
    
     } else {
+      
       setTagsArray((prevTagsArray) => prevTagsArray.filter((tag) => tag !== Tags[index]));
       setSelTags((prevSelTags) => prevSelTags.filter((tag) => tag !== Tags[index]));
+      setShouldRunEffect(false)
+      
+
+   
     }
+
   };
 
   // Fetching tags data
@@ -146,7 +168,7 @@ function FilterBtn() {
     <>
     <div style={{display:"flex"}}>
     <div style={{marginRight:"3rem"}}>
-    <div style={{  backgroundColor: "rgb(212, 208, 208)", boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)", height: "200px"}}>
+    <div style={{  backgroundColor: "rgb(212, 208, 208)",paddingBottom:"5rem" ,boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)", height: "200px"}}>
         <div style={{ padding: "1rem" }}>
           {Array.isArray(data2["Tags"]) && data2["Tags"].map((tag, index) => (
             <div key={index}>

@@ -30,6 +30,7 @@ function NCreatePoll() {
 
       setOptionCounter(optionCounter + 1);
   }
+
   
   return (
     <div>
