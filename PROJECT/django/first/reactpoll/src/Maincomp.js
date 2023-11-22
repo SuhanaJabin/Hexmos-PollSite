@@ -1,36 +1,56 @@
-import React from 'react'
+
+import React, { useState, useEffect, useContext,useRef } from "react";
 import "./mystyle.css";
 import Table from "./Table"
+import {ThingsContext,ThingsProvider} from "./ThingsContext";
 
 function Maincomp() {
+  const SelTags=useContext(ThingsContext)
+  console.log("This is the selTags in MAINCOMP",SelTags)
+  const [pollsdata, setPollsData] = useState(null);
+  const [question, setQuestion] = useState("");
+  const [number, setNumber] = useState("");
+  const [votes, setVotes] = useState("");
+  useEffect(() => {
+  
+      const pollsdataurl = `http://localhost:8000/polls/get-polls-data/`;
+
+      const fetchData = async () => {
+        try {
+          const response = await fetch(pollsdataurl);
+      
+          if (response.ok) {
+            const json = await response.json();
+            console.log("This is the pollsdata json in MAIN: ", json)
+            const columns = Object.keys(json[0]);
+            setPollsData(json);
+          
+            if (json && json.length > 0) {
+              setQuestion(json[0].Question); // Set the initial question
+            }
+            if (json && json.length > 0) {
+              setNumber(json[0].Number); // Set the initial question
+            }
+            if (json && json.length > 0) {
+              setVotes(json[0].TotalVotes); // Set the initial question
+            }
+          } else {
+            console.error('Request failed with status:', response.status);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+      fetchData();
+ 
+  }, []);
   return (
+
     <div style={{padding:"1rem"}}>
     
     <div className='table'>
-    {/* <table style={{padding:"1rem"}}>
-          <tr >
-            <th>Number</th>
-            <th>Poll Question</th>
-            <th>Total votes</th>
-            <th>Tags</th>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Will India win ICC World Cup next time?</td>
-            <td>22</td>
-            <td>Sports,Games</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>
-              What will be the total corona casualities by the next year
-              globally?
-            </td>
-            <td>10</td>
-            <td>Health,Politics</td>
-          </tr>
-        </table> */}
-        <Table />
+    
+        <Table data={pollsdata} />
     </div>
     
     </div>

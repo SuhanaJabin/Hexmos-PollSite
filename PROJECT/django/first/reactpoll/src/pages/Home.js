@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import Heading from "../Heading";
 import Maincomp from "../Maincomp";
 import SlideBar from "../SlideBar";
@@ -8,13 +8,16 @@ import { Firstdata } from '../Data';
 import SecondData from '../SecondData';
 import FetchData from '../FetchData';
 import Table2 from '../Table2';
-const TagsContext =React.createContext({})//creating the context
-export const TagsProvider = TagsContext.Provider//creating a way to provide the context
+import ThingsContext from '../ThingsContext';
+import { ThingsProvider } from '../ThingsContext';
 
-function Home() {
 
-  
-  
+
+const Home = props =>{
+  const[tags,setTags]=useState([]);
+  const[SelTags,setSelTags]=useState([]);
+
+
  
   return (
     <>
@@ -24,21 +27,17 @@ function Home() {
   
     
       <Heading />
+      <ThingsProvider value={SelTags}>
+    
+     
       <div style={{display:"flex"}}>
-   
-       <Maincomp />
-       {/* <FetchData /> */}
-       <SlideBar />
-   
-    
-       
-       
-    
- 
-       
-      
-       
-       </div>
+
+      <SlideBar  setSelTags={setSelTags} />
+       <Maincomp />   
+        </div>
+
+      </ThingsProvider>
+  
      
     </div>
     </>

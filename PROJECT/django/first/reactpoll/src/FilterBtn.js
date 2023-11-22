@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useContext,useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "./Table";
 import FetchData from "./FetchData";
 import Home from "./pages/Home";
-
+import { ThingsProvider ,ThingsContext} from "./ThingsContext";
 function FilterBtn() {
   const [TagsArray, setTagsArray] = useState([]);
   const [SelTags, setSelTags] = useState([]); 
   const [value, setValue] = useState(1);
   const [pollsdata, setPollsData] = useState(null);
   const [isChecked, setIsChecked] = useState([false, false, false, false, false, false]);
-  const Tags = ["day", "mother", "writer", "ocean", "bone", "small"];
+  const Tags = ["day", "mother", "writer", "ocean", "bone", "small","bird","country","skeleton"];
   const [tag, setTag] = useState(null);
   const [shouldRunEffect, setShouldRunEffect] = useState(false);
   const navigate = useNavigate();
@@ -21,44 +21,20 @@ function FilterBtn() {
   const prevNonEmptyTagsRef = useRef([]);
   let pid;
 
+
+  let things=useContext(ThingsContext);
+  console.log("This is things" ,things)
+
+
   let nonEmptyTags = SelTags.filter(tag => tag && tag.trim() !== "");
   let mystring = nonEmptyTags.join(",");
   console.log("Value is ", value);
 
-  useEffect(() => {
-    if (value === 1) {
-      const pollsdataurl = `http://localhost:8000/polls/get-polls-data/`;
+  // const TagContext=createContext();
 
-      const fetchData = async () => {
-        try {
-          const response = await fetch(pollsdataurl);
-      
-          if (response.ok) {
-            const json = await response.json();
-            console.log("This is the pollsdata json: ", json)
-            const columns = Object.keys(json[0]);
-            setPollsData(json);
-            setValue(1);
-  
-            if (json && json.length > 0) {
-              setQuestion(json[0].Question); // Set the initial question
-            }
-            if (json && json.length > 0) {
-              setNumber(json[0].Number); // Set the initial question
-            }
-            if (json && json.length > 0) {
-              setVotes(json[0].TotalVotes); // Set the initial question
-            }
-          } else {
-            console.error('Request failed with status:', response.status);
-          }
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      };
-      fetchData();
-    }
-  }, [value]);
+
+
+
 
   useEffect(() => {
     const prevNonEmptyTags = prevNonEmptyTagsRef.current;
@@ -100,7 +76,7 @@ function FilterBtn() {
       setValue(1);
     }
     SelTags.forEach((tag, index) => {
-      console.log(tag);
+      console.log("Seelected Tags",tag);
     });
 
     // Set the flag to true to trigger the useEffect on the next render
@@ -136,6 +112,9 @@ function FilterBtn() {
     }
 
   };
+  console.log("This is the selected tags",SelTags)
+  things=SelTags;
+  console.log("This is the thing selected tags",things)
 
   // Fetching tags data
   useEffect(() => {
@@ -180,7 +159,8 @@ function FilterBtn() {
           ))}
         </div>
         <div style={{ padding: "1rem" }}>
-          <button onClick={() => print()}>Filter by tags</button>
+        <ThingsProvider value={SelTags}> <button onClick={() => print()}>Filter by tags</button></ThingsProvider>
+         
         </div>
    
       </div>

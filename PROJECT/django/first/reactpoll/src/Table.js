@@ -4,7 +4,7 @@ function Table({data}) {
     if (!data || data.length === 0) {
         return <div> {data} </div>;
       }
-    console.log("This is table data" ,{data})
+    console.log("This is table data in TABLE" ,{data})
  
 
     const columns=Object.keys(data[0]);
@@ -51,7 +51,7 @@ const TableBody = ({ data }) => {
           <tbody>
           {/* <a href="{% url 'polls:detail' question.id %}">Vote again?</a> */}
           {data.map((item) => (
-              <tr key={item.Number}>
+              <tr key={item["Number"]}>
                 <td>{item.Number}</td>
     
                 {/* <td><a href={`http://localhost:8000/polls/get-polls-data/${item.Number}`}> {item.Question} </a></td> */}
