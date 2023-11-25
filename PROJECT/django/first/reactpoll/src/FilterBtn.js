@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Table from "./Table";
 import FetchData from "./FetchData";
 import Home from "./pages/Home";
-import { TagsProvider ,TagsContext} from "./ThingsContext";
+import { TagsProvider ,TagsContext} from "./TagsContext";
+import Maincomp from "./Maincomp";
+
 function FilterBtn() {
   const [TagsArray, setTagsArray] = useState([]);
   const [SelTags, setSelTags] = useState([]); 
@@ -24,6 +26,9 @@ function FilterBtn() {
 
   // let things=useContext(ThingsContext);
   // console.log("This is things" ,things)
+
+  const tagsurl=useContext(TagsContext)
+  console.log("This is the data in tagsurl in FILTERBTN ",tagsurl);
 
 
   let nonEmptyTags = SelTags.filter(tag => tag && tag.trim() !== "");
@@ -113,35 +118,34 @@ function FilterBtn() {
 
   };
   console.log("This is the selected tags",SelTags)
+
   // things=SelTags;
   // console.log("This is the thing selected tags",things)
 
   // Fetching tags data
-  useEffect(() => {
-    const tagsdataurl2 = `http://localhost:8000/polls/list_tags/`;
+  // useEffect(() => {
+  //   const tagsdataurl2 = `http://localhost:8000/polls/list_tags/`;
 
-    const TagData = async () => {
-      try {
-        const response = await fetch(tagsdataurl2);
-        if (response.ok) {
-          const json2 = await response.json();
-          console.log("This is tags", json2);
-          setData2(json2);
+  //   const TagData = async () => {
+  //     try {
+  //       const response = await fetch(tagsdataurl2);
+  //       if (response.ok) {
+  //         const json2 = await response.json();
+  //         console.log("This is tags", json2);
+  //         setData2(json2);
           
-        } else {
-          console.error('Request failed with status:', response.status);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
+  //       } else {
+  //         console.error('Request failed with status:', response.status);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //   };
 
-    TagData();
-  }, []);
+  //   TagData();
+  // }, []);
+ 
 
-  if (!data2 || data2.length === 0) {
-    return <div>No data available</div>;
-  }
 
   return (
     <>
@@ -149,7 +153,7 @@ function FilterBtn() {
     <div style={{marginRight:"3rem"}}>
     <div style={{  backgroundColor: "rgb(212, 208, 208)",paddingBottom:"5rem" ,boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)", height: "200px"}}>
         <div style={{ padding: "1rem" }}>
-          {Array.isArray(data2["Tags"]) && data2["Tags"].map((tag, index) => (
+          {Array.isArray(tagsurl["Tags"]) && tagsurl["Tags"].map((tag, index) => (
             <div key={index}>
               <input type='checkbox' checked={isChecked[index]} onChange={() => handleOnChange(index)} name={tag}></input>
               <label htmlFor={`checkbox${index}`}>{tag}</label>
@@ -159,14 +163,20 @@ function FilterBtn() {
           ))}
         </div>
         <div style={{ padding: "1rem" }}>
-        {/* <ThingsProvider value={SelTags}> <button onClick={() => print()}>Filter by tags</button></ThingsProvider> */}
+        <TagsProvider value={tag}>
+        <Maincomp />
+        
+       
+         <button onClick={() => print()}>Filter by tags</button>
+   
+         </TagsProvider>
          
         </div>
    
       </div>
     </div>
       
-      <div><Table data={value === 1 ? pollsdata : tag} /></div>
+      {/* <div><Table data={ tag} /></div> */}
      
     </div>
       

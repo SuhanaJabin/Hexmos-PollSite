@@ -8,8 +8,7 @@ import { Firstdata } from '../Data';
 import SecondData from '../SecondData';
 import FetchData from '../FetchData';
 import Table2 from '../Table2';
-
-import { TagsProvider,TagsContext } from '../ThingsContext';
+import { TagsProvider,TagsContext } from '../TagsContext';
 import { createContext } from 'react';
 
 
@@ -24,8 +23,31 @@ const BasicProvider=BasicContext.Provider
 
 const Home = props =>{
   const[tags,setTags]=useState([]);
-  const[SelTags,setSelTags]=useState(["sports","games"]);
+  const[tagsurl,setTagsurl]=useState([]);
+
+  const[SelTags,setSelTags]=useState([]);
   const[text,setText]=useState("")
+  useEffect(() => {
+    const tagsurl = `http://localhost:8000/polls/list_tags/`;
+
+    const TagData = async () => {
+      try {
+        const response = await fetch(tagsurl);
+        if (response.ok) {
+          const json2 = await response.json();
+          console.log("This is tags in HOME", json2);
+          setTagsurl(json2);
+          
+        } else {
+          console.error('Request failed with status:', response.status);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    TagData();
+  }, []);
 
 
  
@@ -37,13 +59,13 @@ const Home = props =>{
   
     
       <Heading />
-      <TagsProvider value={SelTags}>
+      <TagsProvider value={tagsurl}>
     
      
       <div style={{display:"flex"}}>
 
-      <SlideBar  setSelTags={setSelTags} />
-       <Maincomp />   
+      <SlideBar  />
+       {/* <Maincomp />    */}
         </div>
 
       </TagsProvider>
