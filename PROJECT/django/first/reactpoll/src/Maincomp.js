@@ -2,11 +2,19 @@
 import React, { useState, useEffect, useContext,useRef } from "react";
 import "./mystyle.css";
 import Table from "./Table"
-import {ThingsContext,ThingsProvider} from "./ThingsContext";
+import {TagsContext,TagsProvider} from "./ThingsContext";
+
 
 function Maincomp() {
-  const SelTags=useContext(ThingsContext)
-  console.log("This is the selTags in MAINCOMP",SelTags)
+
+  // let text=useContext(BasicContext);
+  // console.log("This is teh text",text);
+
+
+
+  let SelTags=useContext(TagsContext)
+  console.log("This is the first selTag in MAINCOMP ",SelTags[0],SelTags[1])
+
   const [pollsdata, setPollsData] = useState(null);
   const [question, setQuestion] = useState("");
   const [number, setNumber] = useState("");

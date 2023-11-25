@@ -1,9 +1,14 @@
 import React from 'react'
 import { createContext } from 'react'
-const ThingsContext=React.createContext({})
-const ThingsProvider = ({ children, value }) => {
-    return <ThingsContext.Provider value={value}>{children}</ThingsContext.Provider>;
-  };
+
+// const tagsdataurl2 = `http://localhost:8000/polls/list_tags/`;
+
+const TagsContext=React.createContext([])
+const TagsProvider = TagsContext.Provider
+
+// const ThingsProvider = (  value ) => {
+//     return <ThingsContext.Provider>{value}</ThingsContext.Provider>;
+//   };
   
 
-  export { ThingsProvider, ThingsContext };
+  export { TagsProvider, TagsContext };

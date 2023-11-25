@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Table from "./Table";
 import FetchData from "./FetchData";
 import Home from "./pages/Home";
-import { ThingsProvider ,ThingsContext} from "./ThingsContext";
+import { TagsProvider ,TagsContext} from "./ThingsContext";
 function FilterBtn() {
   const [TagsArray, setTagsArray] = useState([]);
   const [SelTags, setSelTags] = useState([]); 
@@ -22,8 +22,8 @@ function FilterBtn() {
   let pid;
 
 
-  let things=useContext(ThingsContext);
-  console.log("This is things" ,things)
+  // let things=useContext(ThingsContext);
+  // console.log("This is things" ,things)
 
 
   let nonEmptyTags = SelTags.filter(tag => tag && tag.trim() !== "");
@@ -113,8 +113,8 @@ function FilterBtn() {
 
   };
   console.log("This is the selected tags",SelTags)
-  things=SelTags;
-  console.log("This is the thing selected tags",things)
+  // things=SelTags;
+  // console.log("This is the thing selected tags",things)
 
   // Fetching tags data
   useEffect(() => {
@@ -159,7 +159,7 @@ function FilterBtn() {
           ))}
         </div>
         <div style={{ padding: "1rem" }}>
-        <ThingsProvider value={SelTags}> <button onClick={() => print()}>Filter by tags</button></ThingsProvider>
+        {/* <ThingsProvider value={SelTags}> <button onClick={() => print()}>Filter by tags</button></ThingsProvider> */}
          
         </div>
    

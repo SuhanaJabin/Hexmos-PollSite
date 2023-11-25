@@ -8,14 +8,24 @@ import { Firstdata } from '../Data';
 import SecondData from '../SecondData';
 import FetchData from '../FetchData';
 import Table2 from '../Table2';
-import ThingsContext from '../ThingsContext';
-import { ThingsProvider } from '../ThingsContext';
+
+import { TagsProvider,TagsContext } from '../ThingsContext';
+import { createContext } from 'react';
+
+
+
+
+
+const BasicContext=createContext("hi")
+const BasicProvider=BasicContext.Provider
+
 
 
 
 const Home = props =>{
   const[tags,setTags]=useState([]);
-  const[SelTags,setSelTags]=useState([]);
+  const[SelTags,setSelTags]=useState(["sports","games"]);
+  const[text,setText]=useState("")
 
 
  
@@ -27,7 +37,7 @@ const Home = props =>{
   
     
       <Heading />
-      <ThingsProvider value={SelTags}>
+      <TagsProvider value={SelTags}>
     
      
       <div style={{display:"flex"}}>
@@ -36,7 +46,18 @@ const Home = props =>{
        <Maincomp />   
         </div>
 
-      </ThingsProvider>
+      </TagsProvider>
+      {/* <button onClick={() => {
+        setText(text === 'dark' ? 'light' : 'dark');
+      }}>
+        Toggle theme
+      </button>
+
+      <BasicProvider value={text}>
+
+      <p>{text}</p>
+    
+      </BasicProvider> */}
   
      
     </div>
