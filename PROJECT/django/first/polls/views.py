@@ -296,7 +296,7 @@ def filtered_polls(request):
           print("common elements:",set2.intersection(set1))
           print("question:",poll.question_text)
           print("options:",poll.option1,poll.option2,poll.option3)
-          print("tags:",set1)
+          print("tags:",set2)
           print("\n")
 
        
@@ -328,7 +328,7 @@ def filtered_tags(request):
          set2 = set(','.join(set2).split(','))
       
          if(set2.intersection(set1)):
-          common_tags = list(set2.intersection(set1))
+          common_tags = list(set1)
           print("Set1:",set1)
           print("Set2:",set2)
           print("common elements:", common_tags)

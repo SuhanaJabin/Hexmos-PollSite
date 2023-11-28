@@ -19,16 +19,25 @@ const BasicContext=createContext("hi")
 const BasicProvider=BasicContext.Provider
 
 
-
-
 const Home = props =>{
+
+  const[stateValue,setStateValue]=useState([]);
+  console.log("Text in Home CMP:",stateValue)
   const[tags,setTags]=useState([]);
+
   const[tagsurl,setTagsurl]=useState([]);
+  const[mytagsurl,setMytagsurl]=useState([]);
+
+  const[change,setChange]=useState(0);
+
 
   const[SelTags,setSelTags]=useState([]);
   const[text,setText]=useState("")
+
+
   useEffect(() => {
     const tagsurl = `http://localhost:8000/polls/list_tags/`;
+    const mytagsurl=`http://localhost:8000/polls/list_tags/`;
 
     const TagData = async () => {
       try {
@@ -37,6 +46,8 @@ const Home = props =>{
           const json2 = await response.json();
           console.log("This is tags in HOME", json2);
           setTagsurl(json2);
+          setMytagsurl(json2);
+          // setStateValue(json2);
           
         } else {
           console.error('Request failed with status:', response.status);
@@ -59,13 +70,11 @@ const Home = props =>{
   
     
       <Heading />
-      <TagsProvider value={tagsurl}>
-    
-     
+      <TagsProvider value={{tagsurl,setTagsurl,mytagsurl,change,setChange}}>
       <div style={{display:"flex"}}>
 
       <SlideBar  />
-       {/* <Maincomp />    */}
+       <Maincomp />   
         </div>
 
       </TagsProvider>

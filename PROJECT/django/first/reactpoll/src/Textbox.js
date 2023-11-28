@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react';
 
-function Textbox() {
-//   var inputElement = document.getElementById("text");
+const Textbox = ({ className, onInputChange }) => {
+  const [inputValue, setInputValue] = useState('initial');
 
-// //   // Get the value of the input field
-// var inputValue = inputElement.value;
-// console.log(inputValue)
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    setInputValue(value);
+    onInputChange(className, value);
+  };
+
   return (
-    <div style={{display:"flex",alignItems:"center",marginBottom:"10px"}}>
-         <input style={{width: "500px", padding:"5px",marginBottom: "0.5rem"}} id="text" type="text" name="name"  />
+    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+      <input
+        style={{ width: '500px', padding: '5px', marginBottom: '0.5rem' }}
+        className={className}
+        type="text"
+        value={inputValue}
+        onChange={handleInputChange}
+      />
     </div>
-  )
-  
-}
+  );
+};
 
-export default Textbox
+export default Textbox;

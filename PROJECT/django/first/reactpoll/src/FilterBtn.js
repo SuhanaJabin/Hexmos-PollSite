@@ -6,7 +6,17 @@ import Home from "./pages/Home";
 import { TagsProvider ,TagsContext} from "./TagsContext";
 import Maincomp from "./Maincomp";
 
-function FilterBtn() {
+const FilterBtn= () => {
+
+  const{tagsurl,setTagsurl,mytagsurl,setChange}=useContext(TagsContext);
+
+  console.log("State Updated FILTER CMP:",tagsurl);
+  console.log("This is MYTAGSURL : ",mytagsurl);
+
+
+
+  console.log("This is the data in FILTER",)
+  
   const [TagsArray, setTagsArray] = useState([]);
   const [SelTags, setSelTags] = useState([]); 
   const [value, setValue] = useState(1);
@@ -23,58 +33,67 @@ function FilterBtn() {
   const prevNonEmptyTagsRef = useRef([]);
   let pid;
 
+ 
+
+
+
+
 
   // let things=useContext(ThingsContext);
   // console.log("This is things" ,things)
 
-  const tagsurl=useContext(TagsContext)
   console.log("This is the data in tagsurl in FILTERBTN ",tagsurl);
 
 
-  let nonEmptyTags = SelTags.filter(tag => tag && tag.trim() !== "");
-  let mystring = nonEmptyTags.join(",");
-  console.log("Value is ", value);
+  // let nonEmptyTags = SelTags.filter(tag => tag && tag.trim() !== "");
 
-  // const TagContext=createContext();
+  // console.log("This is Seltags in FilterBtn",SelTags)
+  // console.log("This is nonEmptytags in FilterBtn",nonEmptyTags)
+  // let mystring = nonEmptyTags.join(",");
+  // console.log("This is mystring in FilterBtn",mystring)
+  // console.log("Value is ", value);
+
+  // // const TagContext=createContext();
 
 
 
 
 
-  useEffect(() => {
-    const prevNonEmptyTags = prevNonEmptyTagsRef.current;
+  // useEffect(() => {
+  //   const prevNonEmptyTags = prevNonEmptyTagsRef.current;
 
-    if (value === 2 && shouldRunEffect && prevNonEmptyTags !== nonEmptyTags && nonEmptyTags.length > 0) {
-      const url = `http://127.0.0.1:8000/polls/pollstag/?tags=${encodeURIComponent(mystring)}`;
+  //   if (value === 2 && shouldRunEffect && prevNonEmptyTags !== nonEmptyTags && nonEmptyTags.length > 0) {
+  //     const url = `http://127.0.0.1:8000/polls/pollstag/?tags=${encodeURIComponent(mystring)}`;
 
-      const myData = async () => {
-        try {
-          const response = await fetch(url);
-          if (response.ok) {
-            const json = await response.json();
-            setTag(json);
-            console.log("Value inside filtered tags is ", value);
-            pid = 2;
-          } else {
-            console.error("Request failed");
-          }
-        } catch (error) {
-          console.error("Error", error);
-        }
-      };
+  //     const myData = async () => {
+  //       try {
+  //         const response = await fetch(url);
+  //         if (response.ok) {
+  //           const json = await response.json();
+  //           setTag(json);
+  //           console.log("Value inside filtered tags is ", value);
+  //           pid = 2;
+  //         } else {
+  //           console.error("Request failed");
+  //         }
+  //       } catch (error) {
+  //         console.error("Error", error);
+  //       }
+  //     };
 
-      myData();
-      prevNonEmptyTagsRef.current = nonEmptyTags;
-      setShouldRunEffect(false); // Reset the flag after running the effect
-      if(!nonEmptyTags)
-      {
-        setValue(1);
-      }
-    }
-  }, [shouldRunEffect, nonEmptyTags]);
+  //     myData();
+  //     prevNonEmptyTagsRef.current = nonEmptyTags;
+  //     setShouldRunEffect(false); // Reset the flag after running the effect
+  //     if(!nonEmptyTags)
+  //     {
+  //       setValue(1);
+  //     }
+  //   }
+  // }, [shouldRunEffect, nonEmptyTags]);
 
   const print = () => {
     setValue(2);
+    setChange(1);
     console.log("Tags for filtering:-");
     if(SelTags.length===0)
     {
@@ -86,6 +105,7 @@ function FilterBtn() {
 
     // Set the flag to true to trigger the useEffect on the next render
     setShouldRunEffect(true);
+    setTagsurl(SelTags);
   };
 
   const handleOnChange = (index) => {
@@ -94,17 +114,12 @@ function FilterBtn() {
     newCheckedState[index] = !newCheckedState[index];
     setIsChecked(newCheckedState);
 
+
+
     if (newCheckedState[index]) {
       setTagsArray((prevTagsArray) => [...prevTagsArray, Tags[index]]);
       setSelTags((prevSelTags) => [...prevSelTags, Tags[index]]);
 
-      if(!SelTags){
-        setValue(1);
-        
-
-      }
-     
-     
    
     } else {
       
@@ -117,7 +132,9 @@ function FilterBtn() {
     }
 
   };
-  console.log("This is the selected tags",SelTags)
+  console.log("This is the selected tags ",SelTags)
+
+
 
   // things=SelTags;
   // console.log("This is the thing selected tags",things)
@@ -144,6 +161,7 @@ function FilterBtn() {
 
   //   TagData();
   // }, []);
+
  
 
 
@@ -153,7 +171,7 @@ function FilterBtn() {
     <div style={{marginRight:"3rem"}}>
     <div style={{  backgroundColor: "rgb(212, 208, 208)",paddingBottom:"5rem" ,boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)", height: "200px"}}>
         <div style={{ padding: "1rem" }}>
-          {Array.isArray(tagsurl["Tags"]) && tagsurl["Tags"].map((tag, index) => (
+          {Array.isArray(mytagsurl["Tags"]) && mytagsurl["Tags"].map((tag, index) => (
             <div key={index}>
               <input type='checkbox' checked={isChecked[index]} onChange={() => handleOnChange(index)} name={tag}></input>
               <label htmlFor={`checkbox${index}`}>{tag}</label>
@@ -163,20 +181,20 @@ function FilterBtn() {
           ))}
         </div>
         <div style={{ padding: "1rem" }}>
-        <TagsProvider value={tag}>
-        <Maincomp />
+      
+
         
        
          <button onClick={() => print()}>Filter by tags</button>
    
-         </TagsProvider>
+      
          
         </div>
    
       </div>
     </div>
       
-      {/* <div><Table data={ tag} /></div> */}
+      <div><Table data={tag} /></div>
      
     </div>
       
