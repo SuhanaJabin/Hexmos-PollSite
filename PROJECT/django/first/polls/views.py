@@ -197,6 +197,47 @@ def incVote(request, pk):
                 return JsonResponse({"error": "Choice not found"}, status=404)
         else:
             return JsonResponse({"error": "'incrementOption' not found in the payload"}, status=400)
+# def createPoll(request):
+#     if request.method =='POST':
+#         try:
+
+# views.py
+
+
+@csrf_exempt
+def create_poll(request):
+    if request.method == 'POST':
+        try:
+            json_data = json.loads(request.body)
+            question_text = json_data.get("Question")
+            options = json_data.get("Options", {})
+            tags = json_data.get("Tags", [])
+
+            if not question_text:
+                return JsonResponse({'error': 'Question text is required'}, status=400)
+
+            # Create a Question instance
+            question = Question(question_text=question_text, pub_date=timezone.now())
+            question.save()
+
+            # Create Choice instances and associate them with the Question
+            for option_number, option_text in options.items():
+                # Extract the option number (e.g., "Option 1" -> 1)
+                option_number = int(option_number.split()[-1])
+                # Create the Choice instance
+                choice = Choice(question=question, choice_text=option_text)
+                choice.save()
+
+            # Create Tag instances and associate them with the Question
+            for tag_name in tags:
+                tag, created = Tag.objects.get_or_create(name=tag_name)
+                question.tags.add(tag)
+
+            return JsonResponse({'message': 'Data saved successfully'})
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    else:
+        return JsonResponse({'error': 'This view only accepts POST requests'}, status=405)
 
 
 

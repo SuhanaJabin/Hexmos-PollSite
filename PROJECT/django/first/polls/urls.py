@@ -13,6 +13,7 @@ urlpatterns = [
     path('get-polls-data/', views.all_data, name='sget_polls_data'),
     path('get-csrf-token/', views.get_csrf_token, name='get_csrf_token'),
     path('question/', views.createQuestion, name='my_view'),
+    path('create/', views.create_poll, name='my_view'),
     # path('pollsurl/', views.filtered_polls, name='filtered_polls'),
     # path('pollstag/', views.filtered_polls, name='filtered_polls'),
     path('pollstag/', views.filtered_tags, name='filtered_polls'),

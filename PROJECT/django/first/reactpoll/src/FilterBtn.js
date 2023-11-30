@@ -22,7 +22,7 @@ const FilterBtn= () => {
   const [value, setValue] = useState(1);
   const [pollsdata, setPollsData] = useState(null);
   const [isChecked, setIsChecked] = useState([false, false, false, false, false, false]);
-  const Tags = ["day", "mother", "writer", "ocean", "bone", "small","bird","country","skeleton"];
+  const Tags = ["day", "mother", "writer", "ocean", "bone", "small","bird","country","skeleton","continents","largest","desert","sahara"];
   const [tag, setTag] = useState(null);
   const [shouldRunEffect, setShouldRunEffect] = useState(false);
   const navigate = useNavigate();
