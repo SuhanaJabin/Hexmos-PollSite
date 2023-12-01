@@ -8,7 +8,7 @@ import CreatePollBtn from '../CreatePollBtn';
 
 function NCreatePoll() {
   const [question, setQuestion] = useState('');
-const [options, setOptions] = useState(['', '', '']); // Initialize with three empty options
+  const [options, setOptions] = useState([{ index: 1, value: '' }]); // Initialize with three empty options
 const [tags, setTags] = useState('');
 
 
@@ -17,7 +17,8 @@ const [tags, setTags] = useState('');
   // const[click,setClick]=useState(0)
   const Poll={
     "Question":"Which is the largest continent on the Earth?",
-    "Options":{   "Option 1":"Asia",
+    "Options":{   
+    "Option 1":"Asia",
     "Option 2":"Africa",
   "Option 3":"Europe"},
   "Tags":["continents", "largest"]
@@ -39,11 +40,12 @@ const [tags, setTags] = useState('');
 //     if (!response.ok) {
 //       throw new Error(`HTTP error! Status: ${response.status}`);
 //     }
-//     return response.json();
+//     //return response.json();
+//     return response.text();
 //   })
 //   .then(data => {
 //     // Handle the response from the server
-//     console.log('Data saved successfully:', data);
+//     console.log('Server Response', data);
 //   })
 //   .catch(error => {
 //     console.error('Error:', error);
@@ -58,13 +60,38 @@ const [tags, setTags] = useState('');
   var jsonData={
     "Question":"hi",
   }
-  const handleOptionChange = (index, value) => {
+
+  const[optionList,setOptionlList]=[];
+
+  // const handleOptionChange = () =>
+  // {
+
+
+  // }
+
+
+  const handleOptionChange = (option) => {
     console.log("inside handleoptionchange");
+    console.log("This is option: ",option)
     const newOptions = [...options];
-    newOptions[index] = value;
+    console.log("this is INDEX" ,newOptions.index);
+
+    const container = document.getElementById('textboxes-container');
+    console.log("Options Length",options.length)
+
+    console.log("newOptions: ",newOptions)
+    // let optionIndex = newOptions.findIndex(opt => opt.index === option.index);
+    const optionIndex=newOptions.length;
+    console.log("optionIndex Length: ",optionIndex)
+
+    console.log(" New optionIndex: ",optionIndex)
+    newOptions[optionIndex] = option;
     setOptions(newOptions);
-    console.log("this is option ",newOptions)
+    console.log("this is option ", newOptions);
   };
+  console.log("question: ",question)
+  console.log("option: ",options)
+ 
 
   const jsonData3 = {
     "Question": question,
@@ -72,32 +99,40 @@ const [tags, setTags] = useState('');
 
     "Tags": tags.split(',').map(tag => tag.trim()),
   };
-
+const newIndex=0
   function AddTextBox() {
-      console.log("function is being called");
-      const container = document.getElementById('textboxes-container');
-      const newContainer = document.createElement('div');
-      newContainer.classList.add('container');
-
-      const newTextBox = document.createElement('input');
-      newTextBox.type = 'text';
-      newTextBox.placeholder = 'Option ' + optionCounter;
-      // applying styles
-      newTextBox.style.width = '500px';
-      newTextBox.style.padding = '5px';
-      newTextBox.style.marginBottom = '1rem';
-
-      newContainer.appendChild(newTextBox);
-      container.appendChild(newContainer);
-
-      // optionCounter=optionCounter+1;
-
-      setOptionCounter(optionCounter + 1);
+    console.log("function is being called");
+    const container = document.getElementById('textboxes-container');
+    const newIndex = options.length + 1;
+    const newOption = { index: newIndex, value: '' };
+    console.log("Newoption: ",newOption)
+  
+    const newContainer = document.createElement('div');
+    newContainer.classList.add('container');
+  
+    const newTextBox = document.createElement('input');
+    newTextBox.type = 'text';
+    newTextBox.placeholder = 'Option ' + newIndex;
+    newTextBox.style.width = '500px';
+    newTextBox.style.padding = '5px';
+    newTextBox.style.marginBottom = '1rem';
+  
+    newTextBox.addEventListener('input', (event) => {
+      newOption.value = event.target.value;
+      handleOptionChange(newOption);
+    });
+  
+    newContainer.appendChild(newTextBox);
+    container.appendChild(newContainer);
+  
+    setOptions([...options, newOption]);
   }
+  
+  
 
   const elem= document.getElementById("textboxes-container");
   console.log("this is extracted: ",elem);
-  let index;
+
 
   
   return (
@@ -122,7 +157,7 @@ const [tags, setTags] = useState('');
               
               <div classname="last">
                 <div classname="p" style={{marginBottom:"10px"}}  id="textboxes-container">
-                <Textbox className="Option" onInputChange={(name, value) => handleOptionChange(index, value)} />
+                <Textbox className="Option" onInputChange={(name, value) => handleOptionChange(value)} />
                   <button type="button" onClick={AddTextBox} >Add Option</button>
                  
                   {/* <p>On click, one more option textbox is added above this button</p> */}
