@@ -7,6 +7,7 @@ const Textbox = ({ className, onInputChange }) => {
     const value = event.target.value;
     setInputValue(value);
     onInputChange(className, value);
+    console.log("This is the value in textbox: ",value)
   };
 
   return (
