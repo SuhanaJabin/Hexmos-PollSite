@@ -35,6 +35,16 @@ const handleInputChange = (event) => {
   
 
   const click = () => {
+
+    const myoption= document.getElementsByClassName("Option");
+    const elementsArray = Array.from( myoption);
+    const values = elementsArray.map(element => element.value);
+    
+    //myoption.map((opt)=> console.log("Option",opt) )
+    console.log("Option:-",myoption)
+    console.log("Values:-",values)
+
+
     const jsonData2 = JSON.stringify(jsonData3);
     console.log("This is POST DATA",jsonData3);
 
@@ -67,31 +77,40 @@ const handleInputChange = (event) => {
   } 
 // Make an HTTP POST request to your Django server
 
-  const [newOptions, setNewOptions] = useState([]);
 
 
-  const handleOptionChange = (option) => {
+  // const handleOptionChange = (option) => {
 
-    console.log("this is option in handleoptionchange",option)
-    const optindex=option.length
-    console.log("this is INDEX",optindex)
+  //   console.log("this is option in handleoptionchange",option)
+  //   const optindex=option.length
+  //   console.log("this is INDEX",optindex)
    
-      setOptions([...options ,option])
+  //     setOptions([...options ,option])
 
-  };
+  // };
   console.log("question: ",question)
   console.log("option: ",options)
 
   console.log("Options before reduce:", options);
+  
+  let index=0
+  console.log("Options is an array: ",Array.isArray(options));
+  const opt=options.map((element,element.indexOf)=>{element})
+
+  const myarray={}
+  options.forEach((option) => {
+    my[`Option ${option.indexOf}`] = option;
+  });
  
 
   const jsonData3 = {
     "Question": question,
     "Options": (() => {
+    
       const optionsObject = {};
       if (Array.isArray(options)) {
-        options.forEach((option, index) => {
-          optionsObject[`Option ${index + 1}`] = option;
+        options.forEach((option) => {
+          optionsObject[`Option ${option.indexOf}`] = option;
         });
       } else {
         console.error("Options is not an array:", options);
@@ -104,25 +123,32 @@ const handleInputChange = (event) => {
   let i
 
  
-  console.log("Type of options:", Array.isArray(options));
+ 
 
 
 
 
 
-  console.log("this is OPTION INDEX",options)
+  
 const newIndex=0
   function AddTextBox() {
-    console.log("This is the inputValue",inputValue)
-    console.log("function is being called");
+
+    options.push(inputValue)
+
+
+
+
+    
     const container = document.getElementById('textboxes-container');
     const newIndex = options.length;
-    console.log("This is newIndex",newIndex)
-    const newOption = { index: newIndex, value: inputValue };
-    console.log("Newoption: ",newOption)
+   
+    // const newOption = { index: newIndex, value: inputValue };
+    // console.log("Newoption: ",newOption)
+   
   
     const newContainer = document.createElement('div');
     newContainer.classList.add('container');
+
   
     const newTextBox = document.createElement('input');
     newTextBox.type = 'text';
@@ -130,25 +156,32 @@ const newIndex=0
     newTextBox.style.width = '500px';
     newTextBox.style.padding = '5px';
     newTextBox.style.marginBottom = '1rem';
+    
+    newTextBox.className='Option'
   
-    newTextBox.addEventListener('input', (event) => {
-      newOption.value = event.target.value;
+    // newTextBox.addEventListener('input', (event) => {
+    //   //newOption.value = event.target.value;
+    //   options.push(event.target.value)
   
-      console.log("This is the newoption in handleinputchange",newOption)
-    });
+    //   // console.log("This is the newoption in handleinputchange",newOption)
+    // });
   
     newContainer.appendChild(newTextBox);
     container.appendChild(newContainer);
+    // const updatedOptions = [...options, newOption];
+
+    // setOptions(updatedOptions);
   
-    setOptions([...options, newOption]);
-    console.log("After setting the value: ",newOption);
+    
+    //console.log("After setting the value: ",updatedOptions);
+  
    
   }
   
   
 
   const elem= document.getElementById("textboxes-container");
-  console.log("this is extracted: ",elem);
+  
 
 
   
@@ -182,7 +215,7 @@ const newIndex=0
                  {/* <Textbox className="Option" onInputChange={(name,value)=> handleOptionChange(value)} /> */}
 
                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-      <input
+      <input className='Option'
         style={{ width: '500px', padding: '5px', marginBottom: '0.5rem' }}
         
         type="text"
