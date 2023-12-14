@@ -80,7 +80,7 @@ def get_questions_data(request,pk):
             for choice in choices:
                 totalvotes=totalvotes+choice.votes
                 poll_data["Choices"].append({
-                    "number": choice.pk,
+                    
                     "choice_text": choice.choice_text,
                     "votes": choice.votes
                 })
@@ -101,7 +101,7 @@ def get_polls_data(request,pk):
     if poll:
             totalvotes=0
             poll_data = {
-                 "Number": data.id,
+                 
                  "Question": data.question_text,
                  "TotalVotes": totalvotes,
                 "Choices": [],
@@ -112,7 +112,7 @@ def get_polls_data(request,pk):
             for choice in choices:
                  totalvotes=totalvotes+choice.votes
                  poll_data["Choices"].append({
-                     "number": choice.pk,
+                    
                      "choice_text": choice.choice_text,
                      "votes": choice.votes
                  })

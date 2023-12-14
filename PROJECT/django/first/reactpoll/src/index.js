@@ -26,8 +26,9 @@ export default function App() {
         {/* <Route path="CreatePoll" element={<CreatePoll />} /> */}
         <Route path="CreatePoll" element={<NCreatePoll />} />
         <Route path="/poll/:id" element={<NPollDetail />} />
-        <Route path="VotePoll" element={<VotePoll />} />
+        <Route path="/VotePoll/:id" element={<VotePoll />} />
         <Route path="First" element={<First />} />
+        <Route path="/VotePoll" element={<VotePoll />} />
      
       </Routes>
     </BrowserRouter>

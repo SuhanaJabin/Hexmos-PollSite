@@ -44,33 +44,44 @@ const handleInputChange = (event) => {
     console.log("Option:-",myoption)
     console.log("Values:-",values)
 
+    const jsonData3 = {
+      "Question": question,
+      "Options": {},
+    
+      "Tags": tags.split(',').map(tag => tag.trim()),
+    };
+
+    values.forEach((option, index) => {
+      jsonData3["Options"][`${index + 1}`] = option;
+    });
+
 
     const jsonData2 = JSON.stringify(jsonData3);
     console.log("This is POST DATA",jsonData3);
 
 
-//     fetch('http://localhost:8000/polls/create/', {
-//   method: 'POST',
-//   headers: {
-//     'Content-Type': 'application/json',
-//     // Include any additional headers if needed
-//   },
-//   body: jsonData2,
-// })
-//   .then(response => {
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! Status: ${response.status}`);
-//     }
-//     //return response.json();
-//     return response.text();
-//   })
-//   .then(data => {
-//     // Handle the response from the server
-//     console.log('Server Response', data);
-//   })
-//   .catch(error => {
-//     console.error('Error:', error);
-//   });
+    fetch('http://localhost:8000/polls/create/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    // Include any additional headers if needed
+  },
+  body: jsonData2,
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    //return response.json();
+    return response.text();
+  })
+  .then(data => {
+    // Handle the response from the server
+    console.log('Server Response', data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 
 
 
@@ -95,31 +106,34 @@ const handleInputChange = (event) => {
   
   let index=0
   console.log("Options is an array: ",Array.isArray(options));
-  const opt=options.map((element,element.indexOf)=>{element})
+  // const opt=options.map((element,element.indexOf)=>{element})
 
   const myarray={}
-  options.forEach((option) => {
-    my[`Option ${option.indexOf}`] = option;
-  });
+  // options.forEach((option) => {
+  //   my[`Option ${option.indexOf}`] = option;
+  // });
+  const optionsObject = {};
+
+  // (() => {
+    
+    
+  //   if (Array.isArray(options)) {
+  //     options.forEach((option) => {
+  //       optionsObject[`Option ${option.indexOf}`] = option;
+  //     });
+  //   } else {
+  //     console.error("Options is not an array:", options);
+  //   }
+  //   return optionsObject;
+  // })()
+
+  //   const values = Object.values(optionsObject)
+  //   console.log("After converting into array: ",values);
+
+  
  
 
-  const jsonData3 = {
-    "Question": question,
-    "Options": (() => {
-    
-      const optionsObject = {};
-      if (Array.isArray(options)) {
-        options.forEach((option) => {
-          optionsObject[`Option ${option.indexOf}`] = option;
-        });
-      } else {
-        console.error("Options is not an array:", options);
-      }
-      return optionsObject;
-    })(),
-  
-    "Tags": tags.split(',').map(tag => tag.trim()),
-  };
+ 
   let i
 
  
@@ -193,16 +207,7 @@ const newIndex=0
       <div style={{display: "flex", flexDirection: "column"}} classname="main-div">
         <div className="section-1">
           <div classname="boxn"> 
-          {Array.isArray(options) ? (
-  options.map(option => (
-    <div key={option.index}>
-      <p>Option {option.value}</p>
-    </div>
-  ))
-) : (
-  <p>Options is not an array</p>
-)}
-
+ 
             <form classname="form" style={{width:"1000px"}}  action="/action_page.php" />
               <h4>Question</h4>
              

@@ -170,7 +170,7 @@ if (data && Array.isArray(data)) {
         <table>
           <thead>
             <tr>
-              <th>Number</th>
+            
               <th>Option</th>
               <th>Votes</th>
         
@@ -182,7 +182,7 @@ if (data && Array.isArray(data)) {
                 {/* <td>{item.number}</td>
                 <td>{item.choice_text}</td>
                 <td>{item.votes}</td> */}
-                <td>{item.number}</td>
+                
                 <td>{item.choice_text}</td>
                 <td>{item.votes}</td>
                

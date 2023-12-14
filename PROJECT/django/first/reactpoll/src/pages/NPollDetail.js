@@ -6,6 +6,7 @@ import STable from "../SecondData";
 import { SecondData } from "../Data";
 import Table2 from "../Table2";
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 function NPollDetail() {
   const { id } = useParams();
  
@@ -120,6 +121,11 @@ function NPollDetail() {
 
 
   }, []);
+  const navigate = useNavigate();
+  const navigation= () =>
+  {
+    navigate(`/VotePoll/${id}`);
+  }
 
   return (
     <div>
@@ -138,7 +144,7 @@ function NPollDetail() {
              
                 {/* <Mainheading name={data.Question} /> */}
               </div>
-              <button style={{ marginBottom: "1rem" }} class="btn2">
+              <button onClick={() => navigation()} style={{ marginBottom: "1rem" }} class="btn2">
                 <h4>Vote on this Poll</h4>
               </button>
               
