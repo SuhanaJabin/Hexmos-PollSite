@@ -159,49 +159,83 @@ def get_csrf_token(request):
 @csrf_exempt
 
 
-def incVote(request, pk):
-    if request.method == 'POST':
-        question = Question.objects.get(pk=pk)  
-        # payload = request.POST  # Assuming you're sending data in the POST request body
-        # print(payload)
-        try:
-            payload = json.loads(request.body.decode('utf-8'))
-        except json.JSONDecodeError:
-            return JsonResponse({"error": "Invalid JSON payload"}, status=400)
+# def incVote(request, pk):
+#     if request.method == 'POST':
+#         question = Question.objects.get(pk=pk)  
+#         # payload = request.POST  # Assuming you're sending data in the POST request body
+#         # print(payload)
+#         try:
+#             payload = json.loads(request.body.decode('utf-8'))
+#         except json.JSONDecodeError:
+#             return JsonResponse({"error": "Invalid JSON payload"}, status=400)
         
-        print(payload)
+#         print(payload)
 
 
-        # Check if 'incrementOption' is in the payload
-        if 'incrementOption' in payload:
-            print("inside the loop")
-            increment_option = payload['incrementOption']
+#         # Check if 'incrementOption' is in the payload
+#         if 'incrementOption' in payload:
+#             print("inside the loop")
+#             increment_option = payload['incrementOption']
             
-            try:
-                choice = Choice.objects.get(question=question, choice_text=increment_option)
-                choice.votes += 1
-                choice.save()
+#             try:
+#                 choice = Choice.objects.get(question=question, choice_text=increment_option)
+#                 choice.votes += 1
+#                 choice.save()
 
-                data_list = {
-                    "Question": question.question_text,
-                    "Choices": [
-                        {
-                            "Choice": choice.choice_text,
-                            "Votes": choice.votes,
-                        }
-                    ]
-                }
+#                 data_list = {
+#                     "Question": question.question_text,
+#                     "Choices": [
+#                         {
+#                             "Choice": choice.choice_text,
+#                             "Votes": choice.votes,
+#                         }
+#                     ]
+#                 }
 
-                return JsonResponse(data_list)
-            except Choice.DoesNotExist:
-                return JsonResponse({"error": "Choice not found"}, status=404)
-        else:
-            return JsonResponse({"error": "'incrementOption' not found in the payload"}, status=400)
+#                 return JsonResponse(data_list)
+#             except Choice.DoesNotExist:
+#                 return JsonResponse({"error": "Choice not found"}, status=404)
+#         else:
+#             return JsonResponse({"error": "'incrementOption' not found in the payload"}, status=400)
 # def createPoll(request):
 #     if request.method =='POST':
 #         try:
 
 # views.py
+        
+
+
+
+def incVote(request, pk):
+    if request.method == 'POST':
+        question = Question.objects.get(pk=pk)
+
+        try:
+            increment_option = request.body.decode('utf-8')
+        except UnicodeDecodeError:
+            return JsonResponse({"error": "Invalid text payload"}, status=400)
+
+        print(increment_option)
+
+        try:
+            choice = Choice.objects.get(question=question, choice_text=increment_option)
+            choice.votes += 1
+            choice.save()
+
+            data_list = {
+                "Question": question.question_text,
+                "Choices": [
+                    {
+                        "Choice": choice.choice_text,
+                        "Votes": choice.votes,
+                    }
+                ]
+            }
+
+            return JsonResponse(data_list)
+        except Choice.DoesNotExist:
+            return JsonResponse({"error": "Choice not found"}, status=404)
+
 
 
 @csrf_exempt

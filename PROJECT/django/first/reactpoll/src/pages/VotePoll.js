@@ -140,6 +140,62 @@ function VotePoll() {
   //   console.log(choicesData);
   // }
 
+  const handleChange = (text) => {
+    const checkbox = document.getElementById('choices');
+    // console.log("this is checkbox ", checkbox);
+    // console.log("this is the choice ", text);
+    const newOption = { incrementOption: text };
+    // console.log("This is the newoption ", newOption);
+
+    const {parse, stringify} = require('flatted');
+  
+    // const myjson = JSON.stringify(newOption);
+    // console.log("This is POST DATA", myjson);
+
+    
+    fetch(`http://127.0.0.1:8000/polls/pollsvote/${id}/`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'text/plain',
+    // Include any additional headers if needed
+  },
+  body: text
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    //return response.json();
+    return response.text();
+  })
+  .then(data => {
+    // Handle the response from the server
+    console.log('Server Response', data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+
+
+  } 
+
+  
+      
+
+   
+    
+    // Check if the choiceId is already in the selectedChoices array
+    // const isSelected = selectedChoices.includes(choiceId);
+
+    // // If selected, remove from the array; otherwise, add to the array
+    // if (isSelected) {
+    //   setSelectedChoices(selectedChoices.filter(id => id !== choiceId));
+    // } else {
+    //   setSelectedChoices([...selectedChoices, choiceId]);
+    // }
+
+
 
 
   return (
@@ -157,14 +213,29 @@ function VotePoll() {
     
   </div>
 )}
-            <Input text={data[0]["Choices"]["choice_text"]} />
-            <Input text="No" />
+
+{data && data[0]["Choices"] && (
+  <div id="choices">
+    
+  {data[0]["Choices"].map((choice, index) => (
+    <> <input type="radio" id="checkbox1" name="Sports" onChange={() => handleChange( choice.choice_text)}/>
+        <label  for="checkbox1">{choice.choice_text}</label><br />
+</> ))}
+   
+      {/* <Input  key={index} text={choice.choice_text} onChange={() => handleChange( choice.choice_text)}  /> */}
+     
+   
+
+    
+  </div>
+)}
+          
 
             {/* {choicesData.map((choice, index) => (
   <Input text={choice[index]} key={index} />
 ))} */}
 
-            <button style={{ marginTop: "1rem" }} class="btn3">
+            <button style={{ marginTop: "1rem" }} class="btn3" onClick={handleChange}>
               Vote
             </button>
           </div>
