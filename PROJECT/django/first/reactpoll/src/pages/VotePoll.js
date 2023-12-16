@@ -139,11 +139,12 @@ function VotePoll() {
   //   choicesData = data.map((item) => item.Choices).flat();
   //   console.log(choicesData);
   // }
-
+let choice
   const handleChange = (text) => {
     const checkbox = document.getElementById('choices');
     // console.log("this is checkbox ", checkbox);
     // console.log("this is the choice ", text);
+    choice=text
     const newOption = { incrementOption: text };
     // console.log("This is the newoption ", newOption);
 
@@ -151,15 +152,17 @@ function VotePoll() {
   
     // const myjson = JSON.stringify(newOption);
     // console.log("This is POST DATA", myjson);
+  }
 
-    
-    fetch(`http://127.0.0.1:8000/polls/pollsvote/${id}/`, {
+    const fn = (choice) =>
+    {
+      fetch(`http://127.0.0.1:8000/polls/pollsvote/${id}/`, {
   method: 'POST',
   headers: {
     'Content-Type': 'text/plain',
     // Include any additional headers if needed
   },
-  body: text
+  body: choice
 })
   .then(response => {
     if (!response.ok) {
@@ -180,6 +183,10 @@ function VotePoll() {
 
   } 
 
+
+
+    
+    
   
       
 
@@ -235,7 +242,7 @@ function VotePoll() {
   <Input text={choice[index]} key={index} />
 ))} */}
 
-            <button style={{ marginTop: "1rem" }} class="btn3" onClick={handleChange}>
+            <button style={{ marginTop: "1rem" }} class="btn3" onClick={()=>fn(choice)}>
               Vote
             </button>
           </div>

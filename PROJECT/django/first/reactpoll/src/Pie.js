@@ -8,14 +8,16 @@ export const data = [
   
 ];
 
-export const options = {
-  legend: "none",
-  pieSliceText: "label",
-  title: "Total Votes:22",
-  pieStartAngle: 100,
-};
 
-export function Pie() {
+
+export function Pie({votes}) {
+  const options = {
+    legend: "none",
+    pieSliceText: "label",
+    title: `Total Votes:${votes}`,
+    pieStartAngle: 100,
+  };
+  console.log("Totalvotes in PIE: ",votes)
   return (
     <Chart
       chartType="PieChart"

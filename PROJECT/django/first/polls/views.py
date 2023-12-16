@@ -219,7 +219,10 @@ def incVote(request, pk):
 
         try:
             choice = Choice.objects.get(question=question, choice_text=increment_option)
+            print("Choice",choice)
+            print("Before voting: ",choice.votes)
             choice.votes += 1
+            print("After voting: ",choice.votes)
             choice.save()
 
             data_list = {

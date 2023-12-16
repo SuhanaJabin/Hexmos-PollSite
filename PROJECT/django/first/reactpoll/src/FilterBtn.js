@@ -22,7 +22,9 @@ const FilterBtn= () => {
   const [value, setValue] = useState(1);
   const [pollsdata, setPollsData] = useState(null);
   const [isChecked, setIsChecked] = useState([false, false, false, false, false, false]);
-  const Tags = ["day", "mother", "writer", "ocean", "bone", "small","bird","country","skeleton","continents","largest","desert","sahara"];
+  //const Tags = ["day", "mother", "writer", "ocean", "bone", "small","bird","country","skeleton","continents","largest","desert","sahara"];
+  const Tags=mytagsurl
+  console.log("This is Tags ",Tags)
   const [tag, setTag] = useState(null);
   const [shouldRunEffect, setShouldRunEffect] = useState(false);
   const navigate = useNavigate();
@@ -117,14 +119,14 @@ const FilterBtn= () => {
 
 
     if (newCheckedState[index]) {
-      setTagsArray((prevTagsArray) => [...prevTagsArray, Tags[index]]);
-      setSelTags((prevSelTags) => [...prevSelTags, Tags[index]]);
+      setTagsArray((prevTagsArray) => [...prevTagsArray, mytagsurl["Tags"][index]]);
+      setSelTags((prevSelTags) => [...prevSelTags, mytagsurl["Tags"][index]]);
 
    
     } else {
       
-      setTagsArray((prevTagsArray) => prevTagsArray.filter((tag) => tag !== Tags[index]));
-      setSelTags((prevSelTags) => prevSelTags.filter((tag) => tag !== Tags[index]));
+      setTagsArray((prevTagsArray) => prevTagsArray.filter((tag) => tag !== mytagsurl["Tags"][index]));
+      setSelTags((prevSelTags) => prevSelTags.filter((tag) => tag !== mytagsurl["Tags"][index]));
       setShouldRunEffect(false)
       
 
@@ -169,7 +171,7 @@ const FilterBtn= () => {
     <>
     <div style={{display:"flex"}}>
     <div style={{marginRight:"3rem"}}>
-    <div style={{  backgroundColor: "rgb(212, 208, 208)",paddingBottom:"5rem" ,boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)", height: "200px"}}>
+    <div style={{  backgroundColor: "rgb(212, 208, 208)",paddingBottom:"5rem" ,boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)", height: "340px",width:"8rem"}}>
         <div style={{ padding: "1rem" }}>
           {Array.isArray(mytagsurl["Tags"]) && mytagsurl["Tags"].map((tag, index) => (
             <div key={index}>

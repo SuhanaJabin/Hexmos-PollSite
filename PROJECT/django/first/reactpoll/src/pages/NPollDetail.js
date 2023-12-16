@@ -11,6 +11,7 @@ function NPollDetail() {
   const { id } = useParams();
  
   const [data, setData] = useState(null);
+  let[tvotes,setTvotes]=useState(0)
 
   const[data2,setData2]=useState(null);
 
@@ -71,38 +72,17 @@ function NPollDetail() {
           if (json && json.length > 0) {
             setCvotes(json[0].Choices[0].votes[0]); // Set the initial question
           }
-        const no=id-1;
-        const question=data[no].Question;
-        console.log("This is question in NPollDetail",question);
-        // let choices=data[no]["Choices"];
-        // console.log("These are the choices ",choices)
-
-       
-          
-
-              
-  //     <h2>Fetched Data</h2>
-    
-  //     {data.map((item) => (
-  //       <div key={item.Number}
-  //       >
-  //       <table>
-  //       <thead><tr>
-  //         {columns.map((column) => (
-  //         <th key={column}>{column}</th>
-  //       ))}
-  //         </tr></thead>
-          
-  //       </table>
-  //       <p>Id: {item.Number}</p>
-  //         <h3>Question: {item.Question}</h3>
-  //         <h3>{item.TotalVotes}</h3>
-  //         <h3>{item.Tags}</h3>
   
-          
-  //         {/* You can display other attributes here */}
-  //       </div>
-  // ))}
+ 
+  if (data[0] && data[0]["TotalVotes"] != null) {
+    setTvotes(data[0]["TotalVotes"]);
+    console.log("State is updated")
+  } else {
+    // Handle the case where data[0] or TotalVotes is null
+    tvotes = 0; // Set a default value or handle it according to your requirements
+  }
+  console.log("Total votes in Poll Detail ", tvotes)
+ 
 
 
         } else {
@@ -121,7 +101,19 @@ function NPollDetail() {
 
 
   }, []);
+
+  // useEffect(() => {
+  //   console.log("Total votes in Poll Detail ", tvotes);
+  // }, [tvotes]);
   const navigate = useNavigate();
+  // if(data[0] && data[0]["Totalvotes"]>0)
+  // {
+  //   console.log("this is totalvotes",data[0]["TotalVotes"])
+
+  // }
+ 
+ 
+ 
   const navigation= () =>
   {
     navigate(`/VotePoll/${id}`);
@@ -157,7 +149,7 @@ function NPollDetail() {
          
             </div>
             <div class="box2">
-              <Pie />
+              <Pie votes={votes}/>
             </div>
           </div>
         </div>
