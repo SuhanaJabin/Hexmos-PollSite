@@ -67,6 +67,7 @@ const Home = props =>{
     {/* <h2>Home</h2> */}
     <Mainheading name="Home" />
     <div className='main'>
+   
   
     
       <Heading />

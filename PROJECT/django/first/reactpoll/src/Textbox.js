@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const Textbox = ({ className, onInputChange }) => {
-  const [inputValue, setInputValue] = useState('initial');
+  const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = (event) => {
     const value = event.target.value;

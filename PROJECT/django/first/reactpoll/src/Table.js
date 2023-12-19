@@ -37,11 +37,11 @@ const TableBody = ({ data }) => {
 };
     
       return (
-        <div>
+        <div className='overflow-x-auto'>
 
-        <table>
+        <table className='table-auto w-full text-center '>
           <thead>
-            <tr>
+            <tr className='w-16 md:wd-32 lg:w-48 xl:w-64 '>
               <th>Number</th>
               <th>Poll Question</th>
               <th>TotalVotes</th>
@@ -51,11 +51,11 @@ const TableBody = ({ data }) => {
           <tbody>
           {/* <a href="{% url 'polls:detail' question.id %}">Vote again?</a> */}
           {data.map((item) => (
-              <tr key={item["Number"]}>
-                <td>{item.Number}</td>
+              <tr  key={item["Number"]}>
+                <td  >{item.Number}</td>
     
                 {/* <td><a href={`http://localhost:8000/polls/get-polls-data/${item.Number}`}> {item.Question} </a></td> */}
-                <td><a href={`/poll/${item.Number}`}>{item.Question}</a></td>
+                <td ><a href={`/poll/${item.Number}`}>{item.Question}</a></td>
              
                 <td>{item.TotalVotes}</td>
                 <td>{item.Tags.join(', ')}</td>

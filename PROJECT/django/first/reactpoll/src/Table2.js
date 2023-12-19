@@ -163,13 +163,13 @@ if (data && Array.isArray(data)) {
 // };
     
       return (
-        <div>
+        <div className='overflow-x-auto'>
         <h3>{ques}</h3>
       
         <h2>Table 2</h2>
-        <table>
+        <table className='table-auto text-center'>
           <thead>
-            <tr>
+            <tr className='w-16 md:wd-32 lg:w-48 xl:w-64 '>
             
               <th>Option</th>
               <th>Votes</th>

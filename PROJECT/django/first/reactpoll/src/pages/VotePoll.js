@@ -242,7 +242,7 @@ let choice
   <Input text={choice[index]} key={index} />
 ))} */}
 
-            <button style={{ marginTop: "1rem" }} class="btn3" onClick={()=>fn(choice)}>
+            <button className='bg-slate-100 pl-2 pr-2 border-black border-2' style={{ marginTop: "1rem" }}  onClick={()=>fn(choice)}>
               Vote
             </button>
           </div>

@@ -102,6 +102,10 @@ function NPollDetail() {
 
   }, []);
 
+
+
+  
+
   // useEffect(() => {
   //   console.log("Total votes in Poll Detail ", tvotes);
   // }, [tvotes]);
@@ -111,6 +115,21 @@ function NPollDetail() {
   //   console.log("this is totalvotes",data[0]["TotalVotes"])
 
   // }
+  if(data){
+    console.log("This is totalvotes",data[0]["TotalVotes"])
+    console.log("This is first choice : ",data[0]["Choices"][0].choice_text)
+    // Assuming data[0]["Choices"][0] is an array
+
+data[0]["Choices"].map((text, index) => {
+  console.log("This is choice in map fn: ", data[0]["Choices"][index].choice_text);
+});
+
+
+
+    console.log("Choice ",ctext)
+
+  }
+ 
  
  
  
@@ -136,7 +155,7 @@ function NPollDetail() {
              
                 {/* <Mainheading name={data.Question} /> */}
               </div>
-              <button onClick={() => navigation()} style={{ marginBottom: "1rem" }} class="btn2">
+              <button className='bg-slate-100 border-black border-2 p-2 mb-3' onClick={() => navigation()}  class="btn2">
                 <h4>Vote on this Poll</h4>
               </button>
               
@@ -149,7 +168,11 @@ function NPollDetail() {
          
             </div>
             <div class="box2">
-              <Pie votes={votes}/>
+            {data && data[0] && data[0]["TotalVotes"] != null ? (
+    <Pie mydata={data} />
+  ) : (
+    <p>No votes data available</p>
+  )}
             </div>
           </div>
         </div>

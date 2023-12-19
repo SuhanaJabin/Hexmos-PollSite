@@ -15,7 +15,7 @@ function SlideBar() {
   return (
     <>
   
-     <div style={{display:"flex", flexDirection:"column",marginRight:"2rem"}}>
+     <div style={{display:"flex", flexDirection:"column"}}>
      
      <CreatePollBtn />
      <FilterBtn updateState={updateState}/>

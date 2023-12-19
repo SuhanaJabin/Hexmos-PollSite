@@ -11,7 +11,7 @@ function NCreatePoll() {
   const [myArray,setMyArray]=useState([]);
   const [options, setOptions] = useState([]); // Initialize with three empty options
 const [tags, setTags] = useState('');
-const [inputValue, setInputValue] = useState('initial');
+const [inputValue, setInputValue] = useState('');
 
 const handleInputChange = (event) => {
   const value = event.target.value;
@@ -209,11 +209,11 @@ const newIndex=0
           <div classname="boxn"> 
  
             <form classname="form" style={{width:"1000px"}}  action="/action_page.php" />
-              <h4>Question</h4>
+              <h4 className='sm:text-xl'>Question</h4>
              
               <Textbox className="Question" onInputChange={(name, value) => setQuestion(value)} />
               
-              <h4>Answer Options</h4>
+              <h4 className='sm:text-xl'>Answer Options</h4>
               <div classname="last">
                 <div classname="p" style={{marginBottom:"10px"}}  id="textboxes-container">
                 
@@ -232,11 +232,11 @@ const newIndex=0
 
               
 
-                  <button type="button" onClick={() => { AddTextBox(); }} >Add Option</button>
+                  <button className=' bg-slate-100 border-2 border-black p-2' type="button" onClick={() => { AddTextBox(); }} >Add Option</button>
                  
                   {/* <p>On click, one more option textbox is added above this button</p> */}
                 </div>
-                <h3>Comma Seperated Tags</h3>
+                <h3 className='sm:text-xl'> Tags</h3>
                 <Textbox className="Tags" onInputChange={(name, value) => setTags(value)} />
 
 
@@ -244,7 +244,7 @@ const newIndex=0
           </div>
         </div>
         <div >
-          <button onClick={() => click()} style={{marginLeft: "10px",padding: "0.5rem", paddingLeft: "3rem",paddingRight: "3rem" }}  >Create Poll</button>
+          <button className='bg-slate-100 border-black border-2' onClick={() => click()} style={{marginLeft: "10px",padding: "0.5rem", paddingLeft: "3rem",paddingRight: "3rem" }}  >Create Poll</button>
       
         </div>
       </div>
