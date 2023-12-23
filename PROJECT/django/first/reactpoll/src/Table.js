@@ -37,15 +37,15 @@ const TableBody = ({ data }) => {
 };
     
       return (
-        <div className='overflow-x-auto'>
+        <div className=' sm:justify-center overflow-x-auto'>
 
-        <table className='table-auto w-full text-center '>
+        <table className='table-auto  text-center '>
           <thead>
-            <tr className='w-16 md:wd-32 lg:w-48 xl:w-64 '>
-              <th>Number</th>
-              <th>Poll Question</th>
-              <th>TotalVotes</th>
-              <th>Tags</th>
+            <tr className=' '>
+              <th >Number</th>
+              <th >Poll Question</th>
+              <th className=''>TotalVotes</th>
+              <th className=''>Tags</th>
             </tr>
           </thead>
           <tbody>
@@ -64,22 +64,7 @@ const TableBody = ({ data }) => {
           </tbody>
         </table>
       </div>
-//         <div>
-//  <h2>Table</h2>
-        
 
-
-
-//           <table>
-//             <thead>
-//               <TableHeader />
-//             </thead>
-//             <tbody>
-//               <TableBody />
-//             </tbody>
-//           </table> 
-//           {/* <p>{data}</p> */}
-//         </div>
 
       );
     }

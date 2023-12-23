@@ -215,7 +215,7 @@ let choice
           <div class="page">
           {data && data[0] && (
   <div>
-    <h3>{data[0]["Question"]}</h3>
+    <h3 className='sm:text-xl'>{data[0]["Question"]}</h3>
 
     
   </div>
@@ -226,7 +226,7 @@ let choice
     
   {data[0]["Choices"].map((choice, index) => (
     <> <input type="radio" id="checkbox1" name="Sports" onChange={() => handleChange( choice.choice_text)}/>
-        <label  for="checkbox1">{choice.choice_text}</label><br />
+        <label className='sm:text-xl' for="checkbox1">{choice.choice_text}</label><br />
 </> ))}
    
       {/* <Input  key={index} text={choice.choice_text} onChange={() => handleChange( choice.choice_text)}  /> */}

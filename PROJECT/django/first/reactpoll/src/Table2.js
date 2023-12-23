@@ -163,62 +163,28 @@ if (data && Array.isArray(data)) {
 // };
     
       return (
-        <div className='overflow-x-auto'>
+        <div className='overflow-x-auto sm:justify-center '>
         <h3>{ques}</h3>
       
         <h2>Table 2</h2>
-        <table className='table-auto text-center'>
-          <thead>
-            <tr className='w-16 md:wd-32 lg:w-48 xl:w-64 '>
+        <table className='table-auto text-center '>
+          <thead className=' '>
+            {/* <tr className=' md:wd-32 lg:w-48 xl:w-64 w-full min-w-32'> */}
+            <tr className=''>
             
-              <th>Option</th>
-              <th>Votes</th>
+              <th className='sm:table-row flex flex-col md:table-cell  '>Option</th>
+              <th className='sm:table-row flex flex-col md:table-cell'>Votes</th>
         
             </tr>
           </thead>
           <tbody>
             {choicesData.map((item) => (
-              <tr key={item.number}>
-                {/* <td>{item.number}</td>
-                <td>{item.choice_text}</td>
-                <td>{item.votes}</td> */}
+              <tr className=' sm:table-row flex flex-col ' key={item.number}>
+          
                 
                 <td>{item.choice_text}</td>
                 <td>{item.votes}</td>
-               
-
-                {/* <td>{item.Choices.map((choice) => (
-                      <p key={choice.number}>
-                        {choice.number}
-                      </p> ))}
-                      </td>
-               <td>
-             
-                    {item.Choices.map((choice) => (
-                      <p key={choice.number}>
-                        {choice.choice_text} 
-                      </p>))}
-              
-                
-               </td>
-               <td>
-             
-                    {item.Choices.map((choice) => (
-                      <p key={choice.number}>
-                         {choice.votes}
-                      </p>))}
-              
-                </td> 
-                */}
-                {/* {item.Choices.map((choice) => (
-                <>
-                  <td>{choice.number}</td>
-                  <td>{choice.choice_text}</td>
-                  <td>{choice.votes}</td>
-                </>
-              ))}
-                 */}
-                
+            
               </tr>
             ))}
           </tbody>

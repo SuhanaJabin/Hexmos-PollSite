@@ -148,34 +148,29 @@ data[0]["Choices"].map((text, index) => {
         <Heading />
        
         {/* <a href="{% url 'polls:detail' question.id %}">Vote again?</a> */}
-        <div class="main-div" style={{ padding: "1rem" }}>
-          <div class="box">
-            <div class="box1">
-              <div>
-             
-                {/* <Mainheading name={data.Question} /> */}
-              </div>
-              <button className='bg-slate-100 border-black border-2 p-2 mb-3' onClick={() => navigation()}  class="btn2">
-                <h4>Vote on this Poll</h4>
-              </button>
-              
-            
-              <Table2 data={data} id={id} />
-               
-      
-       
+        
+  <div className='md:flex sm:flex-wrap md:flex-nowrap items-center p-4'> {/*Main -->*/} 
+    <div className='flex flex-col justify-center sm:flex-row sm:items-center md:flex-row'> {/*Child 1 -->*/} 
+      <div className=' sm:items-center'>
+        <button className='bg-slate-100 border-black border-2 p-2 mb-3' onClick={() => navigation()}>
+          <h4>Vote on this Poll</h4>
+        </button>
+        <Table2 data={data} id={id} />
+      </div>
+    </div>
+    <div className='flex sm:mt-4 justify-center'> {/*Child 2 -->*/} 
+      {data && data[0] && data[0]["TotalVotes"] != null ? (
+        <Pie mydata={data} />
+      ) : (
+        <p>No votes data available</p>
+      )}
+    </div>
+  </div>
 
-         
-            </div>
-            <div class="box2">
-            {data && data[0] && data[0]["TotalVotes"] != null ? (
-    <Pie mydata={data} />
-  ) : (
-    <p>No votes data available</p>
-  )}
-            </div>
-          </div>
-        </div>
+
+
+
+
       </div>
     </div>
   );
