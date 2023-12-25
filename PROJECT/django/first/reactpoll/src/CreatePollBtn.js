@@ -10,8 +10,8 @@ function CreatePollBtn() {
     navigate('CreatePoll');
   }
   return (
-    <div  style={{marginBottom:"1rem",padding:"1rem",width:"100%"}}>
-        <button onClick={() => navigation()} style={{backgroundColor:" rgb(0, 183, 255)",color:"white",padding:"1rem",fontWeight:"bold"}}>Create Poll</button>
+    <div className='ml-3' style={{marginBottom:"1rem",padding:"1rem",width:"100%"}}>
+        <button className='p-6 text-xl rounded-md ' onClick={() => navigation()} style={{backgroundColor:" rgb(0, 183, 255)",color:"white",fontWeight:"bold"}}>Create Poll</button>
    
       </div>
   )

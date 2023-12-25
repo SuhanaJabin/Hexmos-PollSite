@@ -169,14 +169,14 @@ const FilterBtn= () => {
 
   return (
     <>
-    <div style={{display:"flex"}}>
+    <div className="">
     <div style={{marginRight:"3rem"}}>
-    <div className="h-fit ml-6" style={{  backgroundColor: "rgb(212, 208, 208)",paddingBottom:"5rem" ,boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)",width:"13rem"}}>
+    <div className="h-fit ml-6  sm:w-full md:w-64 " style={{  backgroundColor: "rgb(212, 208, 208)",paddingBottom:"5rem" ,boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)"}}>
         <div style={{ padding: "1rem" }}>
           {Array.isArray(mytagsurl["Tags"]) && mytagsurl["Tags"].map((tag, index) => (
             <div key={index}>
               <input type='checkbox' checked={isChecked[index]} onChange={() => handleOnChange(index)} name={tag}></input>
-              <label className="sm:text-xl" htmlFor={`checkbox${index}`}>{tag}</label>
+              <label className="sm:text-2xl md:text-xl text-xl" htmlFor={`checkbox${index}`}>{tag}</label>
 
               <br />
             </div>

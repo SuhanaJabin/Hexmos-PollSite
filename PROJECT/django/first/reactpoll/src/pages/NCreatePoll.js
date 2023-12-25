@@ -205,10 +205,10 @@ const newIndex=0
     <div class="main">
       <Heading />
       <div style={{display: "flex", flexDirection: "column"}} classname="main-div">
-        <div className="section-1">
+        <div className="section-1 w-[500px]">
           <div classname="boxn"> 
  
-            <form classname="form" style={{width:"1000px"}}  action="/action_page.php" />
+            <form classname="form "  action="/action_page.php" />
               <h4 className='sm:text-xl'>Question</h4>
              
               <Textbox className="Question" onInputChange={(name, value) => setQuestion(value)} />

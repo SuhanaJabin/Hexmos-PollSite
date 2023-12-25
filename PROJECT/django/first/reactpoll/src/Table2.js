@@ -163,26 +163,28 @@ if (data && Array.isArray(data)) {
 // };
     
       return (
-        <div className='overflow-x-auto sm:justify-center '>
-        <h3>{ques}</h3>
       
-        <h2>Table 2</h2>
-        <table className='table-auto text-center '>
+        <div className='overflow-x-auto flex flex-col  '>
+          <h3 className='m-2'>{ques}</h3>
+        
+      
+    
+        <table className=' w-96 md:w-[500px] '>
           <thead className=' '>
-            {/* <tr className=' md:wd-32 lg:w-48 xl:w-64 w-full min-w-32'> */}
-            <tr className=''>
             
-              <th className='sm:table-row flex flex-col md:table-cell  '>Option</th>
-              <th className='sm:table-row flex flex-col md:table-cell'>Votes</th>
+            <tr  className=''>
+            
+              <th className=''>Option</th>
+              <th className=''>Votes</th>
         
             </tr>
           </thead>
           <tbody>
             {choicesData.map((item) => (
-              <tr className=' sm:table-row flex flex-col ' key={item.number}>
+              <tr className='  ' key={item.number}>
           
                 
-                <td>{item.choice_text}</td>
+                <td >{item.choice_text}</td>
                 <td>{item.votes}</td>
             
               </tr>
@@ -191,11 +193,12 @@ if (data && Array.isArray(data)) {
         </table>
    
        <p>{TagsData.map((item,index)=>(<p key={index}></p>))}</p>
-       <p>Tags: {TagsData.join(', ')}</p>
+       <p className='m-2'>Tags: {TagsData.join(', ')}</p>
 
   
-        {/* <p>{question.Tags.map((tag,index)=>(<p key={index}>{tag}</p>))}</p>
-        */} 
+      
+
+        
 
       </div>
 //         <div>

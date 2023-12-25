@@ -72,10 +72,12 @@ const Home = props =>{
     
       <Heading />
       <TagsProvider value={{tagsurl,setTagsurl,mytagsurl,change,setChange}}>
-      <div style={{display:"flex"}}>
+      <div className='md:flex '>
+      <div > <SlideBar  /></div>
+      <div><Maincomp /> </div>
 
-      <SlideBar  />
-       <Maincomp />   
+     
+         
         </div>
 
       </TagsProvider>

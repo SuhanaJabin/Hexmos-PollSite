@@ -116,7 +116,7 @@ function Maincomp() {
 
     <div style={{padding:"1rem"}}>
     
-    <div className='table'>
+    <div >
     
         <Table data={change ? pollsdata : allpollsdata}  />
     </div>

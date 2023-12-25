@@ -151,7 +151,7 @@ data[0]["Choices"].map((text, index) => {
         
   <div className='md:flex sm:flex-wrap md:flex-nowrap items-center p-4'> {/*Main -->*/} 
     <div className='flex flex-col justify-center sm:flex-row sm:items-center md:flex-row'> {/*Child 1 -->*/} 
-      <div className=' sm:items-center'>
+      <div className=' items-center'>
         <button className='bg-slate-100 border-black border-2 p-2 mb-3' onClick={() => navigation()}>
           <h4>Vote on this Poll</h4>
         </button>

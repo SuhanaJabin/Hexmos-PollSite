@@ -37,33 +37,48 @@ const TableBody = ({ data }) => {
 };
     
       return (
-        <div className=' sm:justify-center overflow-x-auto'>
+        <>
+        
 
-        <table className='table-auto  text-center '>
+      <div class="flex flex-col mt-20">
+  <div class="-m-1.5 overflow-x-auto ">
+    <div class="p-1.5 inline-block align-middle">
+      <div class="overflow-hidden">
+        <table class="w-4 divide-y divide-gray-200 dark:divide-gray-700 whitespace-nowrap">
           <thead>
-            <tr className=' '>
-              <th >Number</th>
-              <th >Poll Question</th>
-              <th className=''>TotalVotes</th>
-              <th className=''>Tags</th>
+            <tr className='whitespace-nowrap w-4'>
+              <th scope="col" class="px-6 py-3 text-start text-xs font-medium  uppercase">Number</th>
+              <th scope="col" class="px-6 py-3 text-start text-xs font-medium uppercase">Poll Question</th>
+              <th scope="col" class="px-6 py-3 text-start text-xs font-medium uppercase">TotalVotes</th>
+              <th scope="col" class="px-6 py-3 text-start text-xs font-medium uppercase">Tags</th>
+              
             </tr>
           </thead>
-          <tbody>
-          {/* <a href="{% url 'polls:detail' question.id %}">Vote again?</a> */}
+          <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
           {data.map((item) => (
-              <tr  key={item["Number"]}>
-                <td  >{item.Number}</td>
-    
-                {/* <td><a href={`http://localhost:8000/polls/get-polls-data/${item.Number}`}> {item.Question} </a></td> */}
-                <td ><a href={`/poll/${item.Number}`}>{item.Question}</a></td>
-             
-                <td>{item.TotalVotes}</td>
-                <td>{item.Tags.join(', ')}</td>
-              </tr>
+            <tr className='whitespace-nowrap' key={item["Number"]}>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium  ">{item.Number}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm "><a href={`/poll/${item.Number}`}>{item.Question}</a></td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">{item.TotalVotes}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm ">{item.Tags.join(', ')}</td>
+              
+              
+            </tr>
             ))}
+         
+
+           
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+</div>
+      
+
+
+</>
+
 
 
       );
