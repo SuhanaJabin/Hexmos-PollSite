@@ -1,6 +1,7 @@
 import React from 'react'
 
-function Table({data}) {
+function Table({data,no}) {
+  console.log("this is number in TABLE COMPONENT ",no)
     if (!data || data.length === 0) {
         return <div> {data} </div>;
       }
@@ -55,9 +56,11 @@ const TableBody = ({ data }) => {
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-          {data.map((item) => (
-            <tr className='whitespace-nowrap' key={item["Number"]}>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium  ">{item.Number}</td>
+          
+          {data.map((item,index) => (
+           
+            <tr className='whitespace-nowrap' key={index}>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium  ">{index+1}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm "><a href={`/poll/${item.Number}`}>{item.Question}</a></td>
               <td class="px-6 py-4 whitespace-nowrap text-sm">{item.TotalVotes}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm ">{item.Tags.join(', ')}</td>

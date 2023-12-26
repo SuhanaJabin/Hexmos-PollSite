@@ -111,6 +111,8 @@ function Maincomp() {
  
   }, []);
 
+  console.log("This is the length of ARRAY ",allpollsdata.length)
+
   console.log("This is the initial poll data",allpollsdata)
   return (
 
@@ -118,7 +120,7 @@ function Maincomp() {
     
     <div >
     
-        <Table data={change ? pollsdata : allpollsdata}  />
+        <Table data={change ? pollsdata : allpollsdata} no={allpollsdata.length} />
     </div>
     
     </div>

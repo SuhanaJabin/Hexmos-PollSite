@@ -101,7 +101,7 @@ function NPollDetail() {
 
 
   }, []);
-
+//console.log("This is the length of ARRAY ",data.length)
 
 
   
