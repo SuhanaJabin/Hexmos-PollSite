@@ -11,6 +11,8 @@ function NPollDetail() {
   const { id } = useParams();
  
   const [data, setData] = useState(null);
+
+  
   let[tvotes,setTvotes]=useState(0)
 
   const[data2,setData2]=useState(null);

@@ -71,6 +71,7 @@ const Home = props =>{
   
     
       <Heading />
+      
       <TagsProvider value={{tagsurl,setTagsurl,mytagsurl,change,setChange}}>
       <div className='md:flex '>
       <div > <SlideBar  /></div>
